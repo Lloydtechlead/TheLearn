@@ -124,7 +124,9 @@ class LoginPage extends StatelessWidget{
                           child: Material(
                             color: Colors.transparent,
                             child: InkWell(
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage()));
+                              },
                               child: Center(
                                 child: Text('Войти', style: TextStyle(color: Colors.white, fontSize: 25)),
                               ),
