@@ -19,29 +19,28 @@ class _HomePageState extends State<MainPage>{
       body: Container(),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: Colors.pink,
+        iconSize: 30,
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             title: Text('Главная'),
-            backgroundColor: Colors.pink
           ),
 
           BottomNavigationBarItem(
               icon: Icon(Icons.videocam),
               title: Text('Видеоуроки'),
-              backgroundColor: Colors.pink
           ),
 
           BottomNavigationBarItem(
               icon: Icon(Icons.assignment),
               title: Text('Тесты'),
-              backgroundColor: Colors.pink
           ),
 
           BottomNavigationBarItem(
               icon: Icon(Icons.account_circle),
               title: Text('Профиль'),
-              backgroundColor: Colors.pink
           )
         ],
         onTap: (index) {
