@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'Widgets/CustomIcons.dart';
+import 'Widgets/SocialIcons.dart';
 
 
 class LoginPage extends StatelessWidget{
@@ -95,9 +96,12 @@ class LoginPage extends StatelessWidget{
                           ],
                         ),
                       ),
-                      SizedBox(height: 40,),
-                      Text('Забыли пароль?', style: TextStyle(color: Colors.grey)),
-                      SizedBox(height: 40),
+                      SizedBox(height: 35),
+                      InkWell(
+                        child: Text('Забыли пароль?', style: TextStyle(color: Colors.grey, fontSize: 15)),
+                        onTap: () {},
+                      ),
+                      SizedBox(height: 35),
                       Container(
                         height: 50,
                         margin: EdgeInsets.symmetric(horizontal: 55),
@@ -111,6 +115,44 @@ class LoginPage extends StatelessWidget{
                             style: TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.bold),
                           ),
                         ),
+                      ),
+                      SizedBox(height: 45),
+                      Text('Вход через социальные сети', style: TextStyle(color: Colors.black, fontSize: 25)),
+                      SizedBox(height: 30),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          SocialIcon(
+                            colors: [
+                              Color(0xFF102397),
+                              Color(0xFF187adf),
+                              Color(0xFF00eaf8)
+                            ],
+                            iconData: CustomIcons.facebook,
+                            onPressed: () {},
+                          ),
+                          SocialIcon(
+                            colors: [
+                              Color(0xFFff4f38),
+                              Color(0xFFff355d),
+                            ],
+                            iconData: CustomIcons.googlePlus,
+                            onPressed: () {},
+                          ),
+                          SocialIcon(
+                            colors: [
+                              Color(0xFF17ead9),
+                              Color(0xFF6078ea),
+                            ],
+                            iconData: CustomIcons.twitter,
+                            onPressed: () {},
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 32),
+                      InkWell(
+                        child: Text('Регистрация', style: TextStyle(color: Colors.deepPurple,fontSize: 15)),
+                        onTap: () {},
                       )
                     ],
                   ),
