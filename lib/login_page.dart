@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'Widgets/CustomIcons.dart';
 import 'Widgets/SocialIcons.dart';
+import 'main_page.dart';
 
 
 class LoginPage extends StatelessWidget{
@@ -9,6 +10,7 @@ class LoginPage extends StatelessWidget{
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Container(
         width: double.infinity,
         decoration: BoxDecoration(
@@ -102,17 +104,31 @@ class LoginPage extends StatelessWidget{
                         onTap: () {},
                       ),
                       SizedBox(height: 35),
-                      Container(
-                        height: 50,
-                        margin: EdgeInsets.symmetric(horizontal: 55),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50),
-                          color: Colors.pink[900]
-                        ),
-                        child: Center(
-                          child: Text(
-                            'Войти',
-                            style: TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.bold),
+                      InkWell(
+                        child: Container(
+                          width: 200,
+                          height: 60,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(colors: [
+                              Colors.purple[200],
+                              Colors.purple[400],
+                              Colors.purple[700]
+                            ]),
+                            borderRadius: BorderRadius.circular(8),
+                            boxShadow: [BoxShadow(
+                                color: Colors.pink.withOpacity(.3),
+                                offset: Offset(0, 8),
+                                blurRadius: 8
+                            )],
+                          ),
+                          child: Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              onTap: () {},
+                              child: Center(
+                                child: Text('Войти', style: TextStyle(color: Colors.white, fontSize: 25)),
+                              ),
+                            ),
                           ),
                         ),
                       ),
