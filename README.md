@@ -1,4 +1,4 @@
 # TheLearn
 
-Thelearn
+TheLearn - Учись, просто!
 
