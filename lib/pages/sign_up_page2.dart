@@ -11,6 +11,32 @@ class SignUpPage2 extends StatefulWidget{
 class _SignUpPageState2 extends State<SignUpPage2>{
 
 
+  static const menuItems = <String>[
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+    '10'
+  ];
+
+  final List<DropdownMenuItem<String>> _dropDownMenuItems = menuItems.map(
+      (String value) => DropdownMenuItem<String>(
+        value: value,
+        child: Text(value),
+      )
+  ).toList();
+
+  final List<PopupMenuItem> _popUpMenuItems = menuItems.map(
+      (String value) => PopupMenuItem<String>(
+        value: value,
+        child: Text(value),
+      )
+  ).toList();
 
   @override
   Widget build(BuildContext context) {
