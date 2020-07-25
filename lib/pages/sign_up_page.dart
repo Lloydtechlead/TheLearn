@@ -20,6 +20,9 @@ class _SignUpState extends State<SignUpPage>{
   String _email, _password;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+
+  Color _colorSignUp = Colors.grey;
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -66,7 +69,7 @@ class _SignUpState extends State<SignUpPage>{
                     padding: EdgeInsets.all(20),
                     child: Column(
                       children: <Widget>[
-                        SizedBox(height: 50),
+                        SizedBox(height: 25),
                         Container(
                           padding: EdgeInsets.all(20),
                           decoration: BoxDecoration(
@@ -91,7 +94,7 @@ class _SignUpState extends State<SignUpPage>{
                                         }
                                       },
                                       decoration: InputDecoration(
-                                          hintText: 'Введите вашу почту'
+                                          hintText: 'thelearn@gmail.com'
                                       ),
                                       onSaved: (input) => _email = input,
                                     ),
@@ -119,13 +122,11 @@ class _SignUpState extends State<SignUpPage>{
                             width: 250,
                             height: 60,
                             decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                  colors: [
-                                    Colors.purple[200],
-                                    Colors.purple[400],
-                                    Colors.purple[700]
-                                  ]
-                              ),
+                              gradient: LinearGradient(colors: [
+                                Colors.purple[200],
+                                Colors.purple[400],
+                                Colors.purple[700]
+                              ]),
                               borderRadius: BorderRadius.circular(8),
                               boxShadow: [BoxShadow(
                                   color: Colors.pink.withOpacity(.3),
@@ -140,10 +141,7 @@ class _SignUpState extends State<SignUpPage>{
                                   SignUp();
                                 },
                                 child: Center(
-                                  child: Text(
-                                    'Зарегистрироваться',
-                                    style: TextStyle(color: Colors.white, fontSize: 25),
-                                  ),
+                                  child: Text('Зарегистрироваться', style: TextStyle(color: Colors.white, fontSize: 25)),
                                 ),
                               ),
                             ),

@@ -72,7 +72,7 @@ class _LoginPageState extends State<LoginPage>{
                     children: <Widget>[
                       SizedBox(height: 10),
                       Text('Вход в аккаунт', style: TextStyle(color: Colors.black, fontSize: 25),),
-                      SizedBox(height: 60),
+                      SizedBox(height: 50),
                       Container(
                         padding: EdgeInsets.all(20),
                         decoration: BoxDecoration(
@@ -93,7 +93,7 @@ class _LoginPageState extends State<LoginPage>{
                                   TextFormField(
                                     validator: (input) {
                                       if(input.isEmpty){
-                                        return 'Введите вашу почту';
+                                        return 'Введите вашу почту. Пример: thelearn@gmail.com';
                                       }
                                     },
                                     decoration: InputDecoration(
@@ -119,7 +119,7 @@ class _LoginPageState extends State<LoginPage>{
                           ],
                         ),
                       ),
-                      SizedBox(height: 35),
+                      SizedBox(height: 25),
                       InkWell(
                         child: Text('Забыли пароль?', style: TextStyle(color: Colors.grey, fontSize: 15)),
                         onTap: () {},
