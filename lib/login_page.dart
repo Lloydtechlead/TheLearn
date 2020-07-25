@@ -4,6 +4,7 @@ import 'Widgets/SocialIcons.dart';
 import 'main_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'pages/sign_up_page.dart';
 
 
 
@@ -19,7 +20,7 @@ class _LoginPageState extends State<LoginPage>{
   GoogleSignIn _googleSignIn = new GoogleSignIn();
 
   String _email, _password;
-
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +91,13 @@ class _LoginPageState extends State<LoginPage>{
                               decoration: BoxDecoration(
                                 border: Border(bottom: BorderSide(color: Colors.grey[200]))
                               ),
-                              child: TextField(
+                              child: TextFormField(
+                                validator: (input) {
+                                  if(input.isEmpty){
+                                    return 'Введите электронную почту';
+                                  }
+                                },
+                                onSaved: (input) => _email = input,
                                 decoration: InputDecoration(
                                   hintText: 'Введите имя вашего аккаунта',
                                   hintStyle: TextStyle(color: Colors.grey),
@@ -98,12 +105,21 @@ class _LoginPageState extends State<LoginPage>{
                                 ),
                               ),
                             ),
+                            SizedBox(height: 15),
                             Container(
                               padding: EdgeInsets.all(3),
                               decoration: BoxDecoration(
                                   border: Border(bottom: BorderSide(color: Colors.grey[200]))
                               ),
-                              child: TextField(
+                              child: TextFormField(
+                                key: _formKey,
+                                validator: (input) {
+                                  if(input.length < 8){
+                                    return 'Ваш пароль должен содержать больше 6 символов';
+                                  }
+                                },
+                                obscureText: true,
+                                onSaved: (input) => _password = input,
                                 decoration: InputDecoration(
                                     hintText: 'Введите пароль от вашего аккаунта',
                                     hintStyle: TextStyle(color: Colors.grey),
@@ -140,7 +156,9 @@ class _LoginPageState extends State<LoginPage>{
                           child: Material(
                             color: Colors.transparent,
                             child: InkWell(
-                              onTap: () {},
+                              onTap: () {
+                                signInWithGoogle();
+                              },
                               child: Center(
                                 child: Text('Войти', style: TextStyle(color: Colors.white, fontSize: 25)),
                               ),
@@ -186,7 +204,9 @@ class _LoginPageState extends State<LoginPage>{
                       SizedBox(height: 32),
                       InkWell(
                         child: Text('Регистрация', style: TextStyle(color: Colors.deepPurple,fontSize: 15)),
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpPage()));
+                        },
                       )
                     ],
                   ),
@@ -228,5 +248,17 @@ class _LoginPageState extends State<LoginPage>{
         isSignIn = false;
       });
     });
+  }
+
+  Future<void> signInWithGoogle() async {
+    final formState = _formKey.currentState;
+    if(formState.validate()){
+      formState.save();
+      try{
+        AuthResult user = await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password);
+      }catch(e){
+        print(e.message);
+      }
+    }
   }
 }
