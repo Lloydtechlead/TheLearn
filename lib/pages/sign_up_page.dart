@@ -116,7 +116,21 @@ class _SignUpState extends State<SignUpPage>{
                             ],
                           ),
                         ),
-                        SizedBox(height: 50),
+                        SizedBox(height: 40),
+                        InkWell(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.grey[100],
+                              borderRadius: BorderRadius.circular(8),
+                              boxShadow: [BoxShadow(
+                                color: Colors.blue.withOpacity(.3),
+                                offset: Offset(2, 6),
+                                blurRadius: 6
+                              )]
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 25),
                         InkWell(
                           child: Container(
                             width: 250,
