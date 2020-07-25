@@ -86,45 +86,34 @@ class _LoginPageState extends State<LoginPage>{
                         ),
                         child: Column(
                           children: <Widget>[
-                            Container(
-                              padding: EdgeInsets.all(3),
-                              decoration: BoxDecoration(
-                                border: Border(bottom: BorderSide(color: Colors.grey[200]))
-                              ),
-                              child: TextFormField(
-                                validator: (input) {
-                                  if(input.isEmpty){
-                                    return 'Введите электронную почту';
-                                  }
-                                },
-                                onSaved: (input) => _email = input,
-                                decoration: InputDecoration(
-                                  hintText: 'Введите имя вашего аккаунта',
-                                  hintStyle: TextStyle(color: Colors.grey),
-                                  border: InputBorder.none
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 15),
-                            Container(
-                              padding: EdgeInsets.all(3),
-                              decoration: BoxDecoration(
-                                  border: Border(bottom: BorderSide(color: Colors.grey[200]))
-                              ),
-                              child: TextFormField(
-                                key: _formKey,
-                                validator: (input) {
-                                  if(input.length < 8){
-                                    return 'Ваш пароль должен содержать больше 6 символов';
-                                  }
-                                },
-                                obscureText: true,
-                                onSaved: (input) => _password = input,
-                                decoration: InputDecoration(
-                                    hintText: 'Введите пароль от вашего аккаунта',
-                                    hintStyle: TextStyle(color: Colors.grey),
-                                    border: InputBorder.none
-                                ),
+                            Form(
+                              key: _formKey,
+                              child: Column(
+                                children: <Widget>[
+                                  TextFormField(
+                                    validator: (input) {
+                                      if(input.isEmpty){
+                                        return 'Введите вашу почту';
+                                      }
+                                    },
+                                    decoration: InputDecoration(
+                                      hintText: 'Введите вашу почту'
+                                    ),
+                                    onSaved: (input) => _email = input,
+                                  ),
+                                  TextFormField(
+                                    validator: (input) {
+                                      if(input.isEmpty){
+                                        return 'Введите пароль';
+                                      }
+                                    },
+                                    obscureText: true,
+                                    decoration: InputDecoration(
+                                        hintText: 'Введите пароль'
+                                    ),
+                                    onSaved: (input) => _password = input,
+                                  )
+                                ],
                               ),
                             )
                           ],
@@ -158,6 +147,7 @@ class _LoginPageState extends State<LoginPage>{
                             child: InkWell(
                               onTap: () {
                                 signInWithGoogle();
+                                print(isSignIn);
                               },
                               child: Center(
                                 child: Text('Войти', style: TextStyle(color: Colors.white, fontSize: 25)),
@@ -231,14 +221,11 @@ class _LoginPageState extends State<LoginPage>{
     AuthResult result = (await _auth.signInWithCredential(credential));
 
     _user = result.user;
+    Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage()));
 
     setState(() {
       isSignIn = true;
     });
-
-    if(isSignIn == true){
-      Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage()));
-    }
   }
 
   Future<void> googleSignout() async {
@@ -256,6 +243,7 @@ class _LoginPageState extends State<LoginPage>{
       formState.save();
       try{
         AuthResult user = await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password);
+        Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage()));
       }catch(e){
         print(e.message);
       }

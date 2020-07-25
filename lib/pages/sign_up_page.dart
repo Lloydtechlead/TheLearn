@@ -70,47 +70,46 @@ class _SignUpState extends State<SignUpPage>{
                         Container(
                           padding: EdgeInsets.all(20),
                           decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(20),
-                            boxShadow: [BoxShadow(
-                                color: Color.fromRGBO(123, 104, 238, .3),
-                                blurRadius: 20,
-                                offset: Offset(0, 10)
-                            )]
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(20),
+                              boxShadow: [BoxShadow(
+                                  color: Color.fromRGBO(123, 104, 238, .3),
+                                  blurRadius: 20,
+                                  offset: Offset(0, 10)
+                              )]
                           ),
                           child: Column(
                             children: <Widget>[
-                              Container(
-                                padding: EdgeInsets.all(3),
-                                decoration: BoxDecoration(
-                                    border: Border(bottom: BorderSide(color: Colors.grey[200]))
+                              Form(
+                                key: _formKey,
+                                child: Column(
+                                  children: <Widget>[
+                                    TextFormField(
+                                      validator: (input) {
+                                        if(input.isEmpty){
+                                          return 'Введите вашу почту';
+                                        }
+                                      },
+                                      decoration: InputDecoration(
+                                          hintText: 'Введите вашу почту'
+                                      ),
+                                      onSaved: (input) => _email = input,
+                                    ),
+                                    TextFormField(
+                                      validator: (input) {
+                                        if(input.isEmpty){
+                                          return 'Введите пароль';
+                                        }
+                                      },
+                                      obscureText: true,
+                                      decoration: InputDecoration(
+                                          hintText: 'Введите пароль'
+                                      ),
+                                      onSaved: (input) => _password = input,
+                                    )
+                                  ],
                                 ),
-                                child: TextFormField(
-                                  key: _formKey,
-                                  onSaved: (input) => _email = input,
-                                  decoration: InputDecoration(
-                                      hintText: 'Введите ваш новый логин',
-                                      hintStyle: TextStyle(color: Colors.grey),
-                                      border: InputBorder.none
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: 15),
-                              Container(
-                                padding: EdgeInsets.all(3),
-                                decoration: BoxDecoration(
-                                    border: Border(bottom: BorderSide(color: Colors.grey[200]))
-                                ),
-                                child: TextFormField(
-                                  onSaved: (input) => _password = input,
-                                  obscureText: true,
-                                  decoration: InputDecoration(
-                                      hintText: 'Введите пароль',
-                                      hintStyle: TextStyle(color: Colors.grey),
-                                      border: InputBorder.none
-                                  ),
-                                ),
-                              ),
+                              )
                             ],
                           ),
                         ),
