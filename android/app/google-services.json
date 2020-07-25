@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "277602498035",
+    "firebase_url": "https://thelearn.firebaseio.com",
+    "project_id": "thelearn",
+    "storage_bucket": "thelearn.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:277602498035:android:7d8ed256376d972729ce86",
+        "android_client_info": {
+          "package_name": "com.example.thelearn"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "277602498035-k7mkdb4ghk704dcao3hb1i1ltm8osl9h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.thelearn",
+            "certificate_hash": "745fda5482887ed09616c5ae49a5fba132b36096"
+          }
+        },
+        {
+          "client_id": "277602498035-20nl2b9ub8b2kh6clp6pduv3ero8jnea.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCm2AfVjfI7RTPoinAV-m76jgvOoipNTjo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "277602498035-20nl2b9ub8b2kh6clp6pduv3ero8jnea.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

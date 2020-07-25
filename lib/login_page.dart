@@ -2,12 +2,28 @@ import 'package:flutter/material.dart';
 import 'Widgets/CustomIcons.dart';
 import 'Widgets/SocialIcons.dart';
 import 'main_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 
-class LoginPage extends StatelessWidget{
+
+class LoginPage extends StatefulWidget{
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage>{
+
+  FirebaseAuth _auth = FirebaseAuth.instance;
+  FirebaseUser _user;
+  GoogleSignIn _googleSignIn = new GoogleSignIn();
+
+  String _email, _password;
+
 
   @override
   Widget build(BuildContext context) {
+
     // TODO: implement build
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -124,9 +140,7 @@ class LoginPage extends StatelessWidget{
                           child: Material(
                             color: Colors.transparent,
                             child: InkWell(
-                              onTap: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage()));
-                              },
+                              onTap: () {},
                               child: Center(
                                 child: Text('Войти', style: TextStyle(color: Colors.white, fontSize: 25)),
                               ),
@@ -155,7 +169,9 @@ class LoginPage extends StatelessWidget{
                               Color(0xFFff355d),
                             ],
                             iconData: CustomIcons.googlePlus,
-                            onPressed: () {},
+                            onPressed: () {
+                              handleSignIn();
+                            },
                           ),
                           SocialIcon(
                             colors: [
@@ -181,5 +197,36 @@ class LoginPage extends StatelessWidget{
         ),
       ),
     );
+  }
+
+  bool isSignIn = false;
+
+  Future<void> handleSignIn() async {
+    GoogleSignInAccount googleSignInAccount = await _googleSignIn.signIn();
+    GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
+
+
+    AuthCredential credential = GoogleAuthProvider.getCredential(idToken: googleSignInAuthentication.idToken, accessToken: googleSignInAuthentication.accessToken);
+
+    AuthResult result = (await _auth.signInWithCredential(credential));
+
+    _user = result.user;
+
+    setState(() {
+      isSignIn = true;
+    });
+
+    if(isSignIn == true){
+      Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage()));
+    }
+  }
+
+  Future<void> googleSignout() async {
+    await _auth.signOut().then((onValue) {
+      _googleSignIn.signOut();
+      setState(() {
+        isSignIn = false;
+      });
+    });
   }
 }
