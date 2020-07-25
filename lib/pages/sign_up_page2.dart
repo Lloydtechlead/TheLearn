@@ -10,6 +10,8 @@ class SignUpPage2 extends StatefulWidget{
 
 class _SignUpPageState2 extends State<SignUpPage2>{
 
+
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -101,6 +103,31 @@ class _SignUpPageState2 extends State<SignUpPage2>{
                         ),
                       ],
                     ),
+                    SizedBox(height: 50),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Container(
+                          width: 180,
+                          height: 70,
+                          padding: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [BoxShadow(
+                                color: Color.fromRGBO(37, 0, 255, .3),
+                                blurRadius: 15,
+                                offset: Offset(2, 5)
+                            )]
+                          ),
+                          child: InkWell(
+                            onTap: () async {
+                              showDatePicker(context: context, initialDate: DateTime.now().add(Duration(seconds: 1)), firstDate: DateTime(1990), lastDate: DateTime.now());
+                            },
+                          ),
+                        )
+                      ],
+                    )
                   ],
                 )
               ),
@@ -110,4 +137,11 @@ class _SignUpPageState2 extends State<SignUpPage2>{
       ),
     );
   }
+
+  Future<DateTime>  _selectDateTime(BuildContext context) => showDatePicker(
+    context: context,
+    initialDate: DateTime.now().add(Duration(seconds: 1)),
+    firstDate: DateTime(1990),
+    lastDate: DateTime.now()
+  );
 }
