@@ -21,10 +21,20 @@ class _VideoLessonPageState extends State<VideoLessonPage>{
     List<dynamic> responseList = FORTYTH_CLASS;
     List<Widget> listItems = [];
     responseList.forEach((post) {
+      Color _colorContainer;
+      if(post['name'] == 'Математика'){
+        _colorContainer = Colors.red[900];
+      }else if(post['name'] == 'Русский язык'){
+        _colorContainer = Colors.blue[900];
+      }else if(post['name'] == 'Литературное чтение'){
+        _colorContainer = Colors.yellow[900];
+      }else if(post['name'] == 'Английский язык'){
+        _colorContainer = Colors.brown[900];
+      }
       listItems.add(Container(
         height: 110,
         margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20.0)), color: post['color'], boxShadow: [
+        decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20.0)), color: _colorContainer, boxShadow: [
           BoxShadow(color: Colors.pink.withAlpha(100), blurRadius: 5)
         ]),
         child: Padding(
