@@ -18,14 +18,13 @@ class _VideoLessonPageState extends State<VideoLessonPage>{
 
 
   void getPostsData() {
-    Colors _containerColor;
     List<dynamic> responseList = FORTYTH_CLASS;
     List<Widget> listItems = [];
     responseList.forEach((post) {
       listItems.add(Container(
         height: 110,
         margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20.0)), color: Colors.white, boxShadow: [
+        decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20.0)), color: post['color'], boxShadow: [
           BoxShadow(color: Colors.pink.withAlpha(100), blurRadius: 5)
         ]),
         child: Padding(

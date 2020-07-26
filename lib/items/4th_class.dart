@@ -1,18 +1,19 @@
+import 'package:flutter/material.dart';
+
+
 const FORTYTH_CLASS = [
   {
     "name" : 'Математика',
+    "color": Colors.redAccent
   },{
-    "name": 'Русский язык'
+    "name": 'Русский язык',
+    "color": Colors.lightBlueAccent
   },{
-    "name": 'Литературное чтение'
+    "name": 'Литературное чтение',
+    "color": Colors.yellowAccent
   },{
-    "name": 'Английский язык'
-  },{
-    "name": 'Английский язык'
-  },{
-    "name": 'Английский язык'
-  },{
-    "name": 'Английский язык'
+    "name": 'Английский язык',
+    "color": Colors.brown
   }
 ];
 
