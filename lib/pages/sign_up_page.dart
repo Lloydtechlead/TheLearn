@@ -14,10 +14,10 @@ class SignUpPage extends StatefulWidget{
 
 class _SignUpState extends State<SignUpPage>{
 
+  String dropdownValue;
+
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Container(
@@ -61,7 +61,7 @@ class _SignUpState extends State<SignUpPage>{
             Container(
               margin: EdgeInsets.only(left: 55),
               height: 70,
-              width: 140,
+              width: 160,
               padding: EdgeInsets.all(10),
               decoration: BoxDecoration(
                   color: Colors.white,
@@ -75,6 +75,7 @@ class _SignUpState extends State<SignUpPage>{
               child: Column(
                 children: <Widget>[
                   TextFormField(
+                    keyboardType: TextInputType.text,
                     decoration: InputDecoration(
                         hintText: 'Фамилия'
                     ),
@@ -86,7 +87,7 @@ class _SignUpState extends State<SignUpPage>{
             Container(
               margin: EdgeInsets.only(left: 15),
               height: 70,
-              width: 140,
+              width: 250,
               padding: EdgeInsets.all(10),
               decoration: BoxDecoration(
                   color: Colors.white,
@@ -100,8 +101,9 @@ class _SignUpState extends State<SignUpPage>{
               child: Column(
                 children: <Widget>[
                   TextFormField(
+                    keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
-                        hintText: 'Электронная почта'
+                      hintText: 'Электронная почта',
                     ),
                   )
                 ],
@@ -125,6 +127,7 @@ class _SignUpState extends State<SignUpPage>{
               child: Column(
                 children: <Widget>[
                   TextFormField(
+                    obscureText: true,
                     decoration: InputDecoration(
                         hintText: 'Пароль'
                     ),
@@ -132,6 +135,46 @@ class _SignUpState extends State<SignUpPage>{
                 ],
               ),
             ),
+            SizedBox(height: 40),
+            Container(
+              width: 100,
+              height: 60,
+              margin: EdgeInsets.only(left: 15),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [BoxShadow(
+                      color: Color.fromRGBO(123, 104, 238, .3),
+                      blurRadius: 20,
+                      offset: Offset(0, 10)
+                  )]
+              ),
+              child: Center(
+                child: DropdownButton<String>(
+                    hint: Text('Класс'),
+                    value: dropdownValue,
+                    icon: Icon(Icons.arrow_downward),
+                    iconSize: 24,
+                    elevation: 16,
+                    style: TextStyle(color: Colors.deepPurpleAccent, fontSize: 20),
+                    underline: Container(
+                      height: 2,
+                    ),
+                    onChanged: (String newValue) {
+                      setState(() {
+                        dropdownValue = newValue;
+                      });
+                    },
+                    items: <String>['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11']
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList()
+                ),
+              )
+            )
           ],
         )
       ),
