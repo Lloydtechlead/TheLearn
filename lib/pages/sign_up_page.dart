@@ -16,13 +16,54 @@ class _SignUpState extends State<SignUpPage>{
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: new BoxDecoration(
-        color: Colors.white,
-        image: new DecorationImage(
-          alignment: Alignment.topRight,
-          image: new AssetImage('assets/registration_picture.png'),
-          fit: BoxFit.contain
+
+
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            alignment: Alignment.centerRight,
+            image: AssetImage('assets/registration_picture.png'),
+            fit: BoxFit.contain
+          )
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Container(color: Colors.transparent),
+            SizedBox(height: 80),
+            Container(
+              margin: EdgeInsets.only(left: 15),
+              height: 70,
+              width: 140,
+              padding: EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [BoxShadow(
+                      color: Color.fromRGBO(123, 104, 238, .3),
+                      blurRadius: 20,
+                      offset: Offset(0, 10)
+                  )]
+              ),
+              child: Column(
+                children: <Widget>[
+                  Form(
+                    child: Column(
+                      children: <Widget>[
+                        TextFormField(
+                          decoration: InputDecoration(
+                              hintText: 'Имя'
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ],
         )
       ),
     );
