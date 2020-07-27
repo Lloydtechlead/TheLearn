@@ -32,7 +32,7 @@ class _SignUpState extends State<SignUpPage>{
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Container(color: Colors.transparent),
-            SizedBox(height: 80),
+            SizedBox(height: 100),
             Container(
               margin: EdgeInsets.only(left: 15),
               height: 70,
@@ -49,15 +49,84 @@ class _SignUpState extends State<SignUpPage>{
               ),
               child: Column(
                 children: <Widget>[
-                  Form(
-                    child: Column(
-                      children: <Widget>[
-                        TextFormField(
-                          decoration: InputDecoration(
-                              hintText: 'Имя'
-                          ),
-                        ),
-                      ],
+                  TextFormField(
+                    decoration: InputDecoration(
+                      hintText: 'Имя'
+                    ),
+                  )
+                ],
+              ),
+            ),
+            SizedBox(height: 40),
+            Container(
+              margin: EdgeInsets.only(left: 55),
+              height: 70,
+              width: 140,
+              padding: EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [BoxShadow(
+                      color: Color.fromRGBO(123, 104, 238, .3),
+                      blurRadius: 20,
+                      offset: Offset(0, 10)
+                  )]
+              ),
+              child: Column(
+                children: <Widget>[
+                  TextFormField(
+                    decoration: InputDecoration(
+                        hintText: 'Фамилия'
+                    ),
+                  )
+                ],
+              ),
+            ),
+            SizedBox(height: 40),
+            Container(
+              margin: EdgeInsets.only(left: 15),
+              height: 70,
+              width: 140,
+              padding: EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [BoxShadow(
+                      color: Color.fromRGBO(123, 104, 238, .3),
+                      blurRadius: 20,
+                      offset: Offset(0, 10)
+                  )]
+              ),
+              child: Column(
+                children: <Widget>[
+                  TextFormField(
+                    decoration: InputDecoration(
+                        hintText: 'Электронная почта'
+                    ),
+                  )
+                ],
+              ),
+            ),
+            SizedBox(height: 40),
+            Container(
+              margin: EdgeInsets.only(left: 55),
+              height: 70,
+              width: 140,
+              padding: EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [BoxShadow(
+                      color: Color.fromRGBO(123, 104, 238, .3),
+                      blurRadius: 20,
+                      offset: Offset(0, 10)
+                  )]
+              ),
+              child: Column(
+                children: <Widget>[
+                  TextFormField(
+                    decoration: InputDecoration(
+                        hintText: 'Пароль'
                     ),
                   )
                 ],
