@@ -15,7 +15,7 @@ class SignUpPage extends StatefulWidget{
 class _SignUpState extends State<SignUpPage>{
 
   
-  final databaseReference = FirebaseDatabase.instance.reference();
+  final databaseReference = FirebaseDatabase.instance.reference().child('users');
   
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -250,7 +250,9 @@ class _SignUpState extends State<SignUpPage>{
   }
   
   void createRecord() {
-    databaseReference.child('users').set({
+    databaseReference.child('test').set({
+      'Name': '1',
+      'Surname': '2'
     });
   }
 }
