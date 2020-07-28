@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:thelearn/login_page.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 
 class SignUpPage extends StatefulWidget{
@@ -14,6 +14,9 @@ class SignUpPage extends StatefulWidget{
 
 class _SignUpState extends State<SignUpPage>{
 
+  
+  final databaseReference = FirebaseDatabase.instance.reference();
+  
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   String _email,_password;
@@ -220,7 +223,7 @@ class _SignUpState extends State<SignUpPage>{
                   color: Colors.transparent,
                   child: InkWell(
                     onTap: () {
-                      signUp();
+                      createRecord();
                     },
                     child: Center(
                       child: Text('Зарегистрироваться', style: TextStyle(color: Colors.white, fontSize: 25)),
@@ -244,5 +247,10 @@ class _SignUpState extends State<SignUpPage>{
         print(e.message);
       }
     }
+  }
+  
+  void createRecord() {
+    databaseReference.child('users').set({
+    });
   }
 }
