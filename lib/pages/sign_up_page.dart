@@ -14,6 +14,9 @@ class SignUpPage extends StatefulWidget{
 
 class _SignUpState extends State<SignUpPage>{
 
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  String _email,_password;
   String dropdownValue;
 
   @override
@@ -51,7 +54,7 @@ class _SignUpState extends State<SignUpPage>{
                 children: <Widget>[
                   TextFormField(
                     decoration: InputDecoration(
-                      hintText: 'Имя'
+                        hintText: 'Имя'
                     ),
                   )
                 ],
@@ -84,54 +87,73 @@ class _SignUpState extends State<SignUpPage>{
               ),
             ),
             SizedBox(height: 40),
-            Container(
-              margin: EdgeInsets.only(left: 15),
-              height: 70,
-              width: 250,
-              padding: EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [BoxShadow(
-                      color: Color.fromRGBO(123, 104, 238, .3),
-                      blurRadius: 20,
-                      offset: Offset(0, 10)
-                  )]
-              ),
+            Form(
+              key: _formKey,
               child: Column(
                 children: <Widget>[
-                  TextFormField(
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: InputDecoration(
-                      hintText: 'Электронная почта',
+                  Container(
+                    margin: EdgeInsets.only(left: 15),
+                    height: 70,
+                    width: 250,
+                    padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [BoxShadow(
+                            color: Color.fromRGBO(123, 104, 238, .3),
+                            blurRadius: 20,
+                            offset: Offset(0, 10)
+                        )]
                     ),
-                  )
-                ],
-              ),
-            ),
-            SizedBox(height: 40),
-            Container(
-              margin: EdgeInsets.only(left: 55),
-              height: 70,
-              width: 140,
-              padding: EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [BoxShadow(
-                      color: Color.fromRGBO(123, 104, 238, .3),
-                      blurRadius: 20,
-                      offset: Offset(0, 10)
-                  )]
-              ),
-              child: Column(
-                children: <Widget>[
-                  TextFormField(
-                    obscureText: true,
-                    decoration: InputDecoration(
-                        hintText: 'Пароль'
+                    child: Column(
+                      children: <Widget>[
+                        TextFormField(
+                          validator: (input) {
+                            if(input.isEmpty){
+                              return 'Введите электронный адрес';
+                            }
+                          },
+                          keyboardType: TextInputType.emailAddress,
+                          decoration: InputDecoration(
+                            hintText: 'Электронная почта',
+                          ),
+                          onSaved: (input) => _email = input,
+                        )
+                      ],
                     ),
-                  )
+                  ),
+                  SizedBox(height: 40),
+                  Container(
+                    margin: EdgeInsets.only(left: 35),
+                    height: 70,
+                    width: 140,
+                    padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [BoxShadow(
+                            color: Color.fromRGBO(123, 104, 238, .3),
+                            blurRadius: 20,
+                            offset: Offset(0, 10)
+                        )]
+                    ),
+                    child: Column(
+                      children: <Widget>[
+                        TextFormField(
+                          validator: (input) {
+                            if(input.length < 8){
+                              return 'Пароль должен быть более 8 символов';
+                            }
+                          },
+                          obscureText: true,
+                          decoration: InputDecoration(
+                              hintText: 'Пароль'
+                          ),
+                            onSaved: (input) => _password = input
+                        )
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -174,10 +196,53 @@ class _SignUpState extends State<SignUpPage>{
                     }).toList()
                 ),
               )
-            )
+            ),
+            SizedBox(height: 30),
+            InkWell(
+              child: Container(
+                margin: EdgeInsets.only(left: 100),
+                width: 260,
+                height: 60,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(colors: [
+                    Colors.purple[200],
+                    Colors.purple[400],
+                    Colors.purple[700]
+                  ]),
+                  borderRadius: BorderRadius.circular(8),
+                  boxShadow: [BoxShadow(
+                      color: Colors.pink.withOpacity(.3),
+                      offset: Offset(0, 8),
+                      blurRadius: 8
+                  )],
+                ),
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () {
+                      signUp();
+                    },
+                    child: Center(
+                      child: Text('Зарегистрироваться', style: TextStyle(color: Colors.white, fontSize: 25)),
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ],
         )
       ),
     );
+  }
+
+  void signUp() async {
+    if(_formKey.currentState.validate()){
+      _formKey.currentState.save();
+      try{
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _email, password: _password);
+      }catch(e){
+        print(e.message);
+      }
+    }
   }
 }
