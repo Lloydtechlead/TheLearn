@@ -6,6 +6,6 @@ import 'pages/sign_up_page.dart';
 void main() => runApp(
   MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: SignUpPage(),
+    home: LoginPage(),
   )
 );

@@ -31,7 +31,9 @@ dependencies:
   flutter_screenutil: ^0.4.2
   intl:
   firebase_auth:
+  http:
   google_sign_in:
+  flutter_facebook_login:
   firebase_database:
 
 dev_dependencies:

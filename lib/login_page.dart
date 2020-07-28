@@ -5,7 +5,8 @@ import 'main_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'pages/sign_up_page.dart';
-
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:http/http.dart' as http;
 
 
 class LoginPage extends StatefulWidget{
@@ -14,6 +15,8 @@ class LoginPage extends StatefulWidget{
 }
 
 class _LoginPageState extends State<LoginPage>{
+
+
 
   FirebaseAuth _auth = FirebaseAuth.instance;
   FirebaseUser _user;
@@ -169,7 +172,9 @@ class _LoginPageState extends State<LoginPage>{
                               Color(0xFF00eaf8)
                             ],
                             iconData: CustomIcons.facebook,
-                            onPressed: () {},
+                            onPressed: () {
+                              _signInFacebook();
+                            },
                           ),
                           SocialIcon(
                             colors: [
@@ -247,6 +252,18 @@ class _LoginPageState extends State<LoginPage>{
       }catch(e){
         print(e.message);
       }
+    }
+  }
+
+  void _signInFacebook() async {
+    FacebookLogin facebookLogin = FacebookLogin();
+
+    final result = await facebookLogin.logIn(['email']);
+    final token = result.accessToken.token;
+    final graphResponse = await http.get(
+        'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email&access_token=${token}');
+    if(result.status == FacebookLoginStatus.loggedIn){
+      final credential = FacebookAuthProvider.getCredential(accessToken: token);
     }
   }
 }
