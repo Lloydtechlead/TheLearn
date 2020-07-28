@@ -18,8 +18,12 @@ class _SignUpState extends State<SignUpPage>{
   final databaseReference = FirebaseDatabase.instance.reference().child('users');
   
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey1 = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey2 = GlobalKey<FormState>();
 
   String _email,_password;
+  String _classValue;
+  String _nameValue, _surnameValue;
   String dropdownValue;
 
   @override
@@ -39,56 +43,75 @@ class _SignUpState extends State<SignUpPage>{
           children: <Widget>[
             Container(color: Colors.transparent),
             SizedBox(height: 100),
-            Container(
-              margin: EdgeInsets.only(left: 15),
-              height: 70,
-              width: 140,
-              padding: EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [BoxShadow(
-                      color: Color.fromRGBO(123, 104, 238, .3),
-                      blurRadius: 20,
-                      offset: Offset(0, 10)
-                  )]
-              ),
-              child: Column(
-                children: <Widget>[
-                  TextFormField(
-                    decoration: InputDecoration(
-                        hintText: 'Имя'
-                    ),
-                  )
-                ],
-              ),
-            ),
-            SizedBox(height: 40),
-            Container(
-              margin: EdgeInsets.only(left: 55),
-              height: 70,
-              width: 160,
-              padding: EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [BoxShadow(
-                      color: Color.fromRGBO(123, 104, 238, .3),
-                      blurRadius: 20,
-                      offset: Offset(0, 10)
-                  )]
-              ),
-              child: Column(
-                children: <Widget>[
-                  TextFormField(
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                        hintText: 'Фамилия'
-                    ),
-                  )
-                ],
-              ),
-            ),
+           Form(
+             key: _formKey1,
+             child: Column(
+               children: <Widget>[
+                 Container(
+                   margin: EdgeInsets.only(left: 15),
+                   height: 70,
+                   width: 140,
+                   padding: EdgeInsets.all(10),
+                   decoration: BoxDecoration(
+                       color: Colors.white,
+                       borderRadius: BorderRadius.circular(20),
+                       boxShadow: [BoxShadow(
+                           color: Color.fromRGBO(123, 104, 238, .3),
+                           blurRadius: 20,
+                           offset: Offset(0, 10)
+                       )]
+                   ),
+                   child: Column(
+                     children: <Widget>[
+                       TextFormField(
+                         validator: (input) {
+                           if(input.isEmpty){
+                             return 'Введите имя';
+                           }
+                         },
+                         decoration: InputDecoration(
+                             hintText: 'Имя'
+                         ),
+                         onSaved: (input) => _nameValue = input
+                       )
+                     ],
+                   ),
+                 ),
+                 SizedBox(height: 40),
+                 Container(
+                   margin: EdgeInsets.only(left: 55),
+                   height: 70,
+                   width: 160,
+                   padding: EdgeInsets.all(10),
+                   decoration: BoxDecoration(
+                       color: Colors.white,
+                       borderRadius: BorderRadius.circular(20),
+                       boxShadow: [BoxShadow(
+                           color: Color.fromRGBO(123, 104, 238, .3),
+                           blurRadius: 20,
+                           offset: Offset(0, 10)
+                       )]
+                   ),
+                   child: Column(
+                     children: <Widget>[
+                       TextFormField(
+                         validator: (input) {
+                           if(input.isEmpty){
+                             return 'Введите фамилию';
+                           }
+                         },
+                         keyboardType: TextInputType.text,
+                         decoration: InputDecoration(
+                             hintText: 'Фамилия'
+                         ),
+                           onSaved: (input) => _surnameValue = input
+                       )
+                     ],
+                   ),
+                 ),
+               ],
+             ),
+           ),
             SizedBox(height: 40),
             Form(
               key: _formKey,
@@ -176,6 +199,7 @@ class _SignUpState extends State<SignUpPage>{
               ),
               child: Center(
                 child: DropdownButton<String>(
+                    key: _formKey2,
                     hint: Text('Класс'),
                     value: dropdownValue,
                     icon: Icon(Icons.arrow_downward),
@@ -223,7 +247,7 @@ class _SignUpState extends State<SignUpPage>{
                   color: Colors.transparent,
                   child: InkWell(
                     onTap: () {
-                      createRecord();
+                      signUp();
                     },
                     child: Center(
                       child: Text('Зарегистрироваться', style: TextStyle(color: Colors.white, fontSize: 25)),
@@ -239,9 +263,10 @@ class _SignUpState extends State<SignUpPage>{
   }
 
   void signUp() async {
-    if(_formKey.currentState.validate()){
+    if(_formKey.currentState.validate() & _formKey1.currentState.validate()){
       _formKey.currentState.save();
       try{
+        createRecord();
         await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _email, password: _password);
       }catch(e){
         print(e.message);
@@ -250,9 +275,17 @@ class _SignUpState extends State<SignUpPage>{
   }
   
   void createRecord() {
-    databaseReference.child('test').set({
-      'Name': '1',
-      'Surname': '2'
-    });
+    if(_formKey1.currentState.validate()){
+      _formKey1.currentState.save();
+      print(_nameValue);
+      print(_surnameValue);
+      String _newEmail = _email.toString().replaceAll('@', '').replaceAll('.', '').trim();
+      print(_newEmail);
+      databaseReference.child(_newEmail).set({
+        'Name': _nameValue,
+        'Surname': _surnameValue,
+        'Class': dropdownValue
+      });
+    }
   }
 }
