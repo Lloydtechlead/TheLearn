@@ -264,6 +264,7 @@ class _LoginPageState extends State<LoginPage>{
         'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email&access_token=${token}');
     if(result.status == FacebookLoginStatus.loggedIn){
       final credential = FacebookAuthProvider.getCredential(accessToken: token);
+      _auth.signInWithCredential(credential);
     }
   }
 }
