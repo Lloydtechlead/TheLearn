@@ -35,6 +35,7 @@ dependencies:
   google_sign_in:
   flutter_facebook_login:
   firebase_database:
+  flutter_launcher_icons:
 
 dev_dependencies:
   flutter_test:
@@ -49,6 +50,8 @@ flutter:
   assets:
      - assets/books.png
      - assets/registration_picture.png
+
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
@@ -74,3 +77,9 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
+
+flutter_icons:
+  image_path: "assets/app_icon.jpg"
+  android: true
+  ios: true
