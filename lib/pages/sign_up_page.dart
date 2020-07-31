@@ -70,7 +70,8 @@ class _SignUpState extends State<SignUpPage>{
                            }
                          },
                          decoration: InputDecoration(
-                             hintText: 'Имя'
+                             hintText: 'Имя',
+                             hintStyle: TextStyle(fontFamily: 'DefaultFont', fontSize: 27)
                          ),
                          onSaved: (input) => _nameValue = input
                        )
@@ -102,7 +103,8 @@ class _SignUpState extends State<SignUpPage>{
                          },
                          keyboardType: TextInputType.text,
                          decoration: InputDecoration(
-                             hintText: 'Фамилия'
+                             hintText: 'Фамилия',
+                             hintStyle: TextStyle(fontFamily: 'DefaultFont', fontSize: 27)
                          ),
                            onSaved: (input) => _surnameValue = input
                        )
@@ -142,6 +144,7 @@ class _SignUpState extends State<SignUpPage>{
                           keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(
                             hintText: 'Электронная почта',
+                            hintStyle: TextStyle(fontFamily: 'DefaultFont', fontSize: 27)
                           ),
                           onSaved: (input) => _email = input,
                         )
@@ -173,7 +176,8 @@ class _SignUpState extends State<SignUpPage>{
                           },
                           obscureText: true,
                           decoration: InputDecoration(
-                              hintText: 'Пароль'
+                              hintText: 'Пароль',
+                              hintStyle: TextStyle(fontFamily: 'DefaultFont', fontSize: 27)
                           ),
                             onSaved: (input) => _password = input
                         )
@@ -205,7 +209,7 @@ class _SignUpState extends State<SignUpPage>{
                     icon: Icon(Icons.arrow_downward),
                     iconSize: 24,
                     elevation: 16,
-                    style: TextStyle(color: Colors.deepPurpleAccent, fontSize: 20),
+                    style: TextStyle(fontFamily: 'DefaultFont',color: Colors.deepPurpleAccent, fontSize: 27),
                     underline: Container(
                       height: 2,
                     ),
@@ -250,7 +254,7 @@ class _SignUpState extends State<SignUpPage>{
                       signUp();
                     },
                     child: Center(
-                      child: Text('Зарегистрироваться', style: TextStyle(color: Colors.white, fontSize: 25)),
+                      child: Text('Зарегистрироваться', style: TextStyle(fontFamily: 'DefaultFont',color: Colors.white, fontSize: 45)),
                     ),
                   ),
                 ),

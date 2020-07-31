@@ -68,6 +68,9 @@ flutter:
     - family: CustomIcons
       fonts:
         - asset: assets/CustomIcons.ttf
+    - family: DefaultFont
+      fonts:
+        - asset: assets/calama-regular.ttf
   #         style: italic
 #    - family: DefaultFonts
 #      fonts:
