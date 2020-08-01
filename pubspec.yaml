@@ -51,6 +51,7 @@ flutter:
   assets:
      - assets/books.png
      - assets/registration_picture.png
+     - assets/home_page_progressbar.png
 
 
 
