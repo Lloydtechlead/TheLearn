@@ -36,6 +36,7 @@ dependencies:
   flutter_facebook_login:
   firebase_database:
   flutter_launcher_icons:
+  cloud_firestore:
 
 dev_dependencies:
   flutter_test:

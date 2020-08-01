@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:thelearn/login_page.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 
 class SignUpPage extends StatefulWidget{
@@ -14,8 +15,7 @@ class SignUpPage extends StatefulWidget{
 
 class _SignUpState extends State<SignUpPage>{
 
-  
-  final databaseReference = FirebaseDatabase.instance.reference().child('users');
+  final firestoreInstance = Firestore.instance;
   
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final GlobalKey<FormState> _formKey1 = GlobalKey<FormState>();
@@ -267,29 +267,33 @@ class _SignUpState extends State<SignUpPage>{
   }
 
   void signUp() async {
-    if(_formKey.currentState.validate() & _formKey1.currentState.validate()){
+    if(_formKey.currentState.validate()){
       _formKey.currentState.save();
       try{
-        createRecord();
         await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _email, password: _password);
+        _createUserProfile();
       }catch(e){
         print(e.message);
       }
     }
   }
-  
-  void createRecord() {
+
+  void _createUserProfile() async {
     if(_formKey1.currentState.validate()){
       _formKey1.currentState.save();
-      print(_nameValue);
-      print(_surnameValue);
-      String _newEmail = _email.toString().replaceAll('@', '').replaceAll('.', '').trim();
-      print(_newEmail);
-      databaseReference.child(_newEmail).set({
-        'Name': _nameValue,
-        'Surname': _surnameValue,
-        'Class': dropdownValue
+      var firebaseUser = await FirebaseAuth.instance.currentUser();
+      firestoreInstance.collection("users").document(firebaseUser.uid).setData(
+        {
+          'name': _nameValue,
+          'surname': _surnameValue,
+          'class': _classValue,
+          'email': _email
+        }
+      ).then((_) {
+        print("success!");
       });
     }
   }
+
+
 }
