@@ -16,6 +16,12 @@ class LoginPage extends StatefulWidget{
 
 class _LoginPageState extends State<LoginPage>{
 
+  FirebaseAuth _auth = FirebaseAuth.instance;
+  FirebaseUser _user;
+  GoogleSignIn _googleSignIn = new GoogleSignIn();
+
+  String _email, _password;
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
@@ -63,6 +69,7 @@ class _LoginPageState extends State<LoginPage>{
                         hintText: 'Введите электронный адрес',
                         hintStyle: TextStyle(fontFamily: 'DefaultFont', fontSize: 25)
                       ),
+                      onSaved: (input) => _email = input,
                     ),
                   ),
                   SizedBox(height: 25),
@@ -80,6 +87,7 @@ class _LoginPageState extends State<LoginPage>{
                           hintText: 'Введите пароль',
                           hintStyle: TextStyle(fontFamily: 'DefaultFont', fontSize: 25)
                       ),
+                      onSaved: (input) => _password = input,
                     ),
                   ),
                 ],
@@ -97,7 +105,9 @@ class _LoginPageState extends State<LoginPage>{
                       Color(0xFF00eaf8)
                     ],
                     iconData: CustomIcons.facebook,
-                    onPressed: () {},
+                    onPressed: () {
+                      _signInFacebook();
+                    },
                   ),
                 ),
                 SizedBox(width: size.width / 2.8),
@@ -121,7 +131,9 @@ class _LoginPageState extends State<LoginPage>{
                   Color(0xFFff355d),
                 ],
                 iconData: CustomIcons.googlePlus,
-                onPressed: () {},
+                onPressed: () {
+                  _handleSignIn();
+                },
               ),
             ),
             Row(
@@ -142,7 +154,9 @@ class _LoginPageState extends State<LoginPage>{
                     child: Material(
                       color: Colors.transparent,
                       child: InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpPage()));
+                        },
                         child: Center(
                           child: Text('Регистрация', style: TextStyle(fontFamily: 'DefaultFont',color: Colors.black, fontSize: 40)),
                         ),
@@ -167,7 +181,9 @@ class _LoginPageState extends State<LoginPage>{
                     child: Material(
                       color: Colors.transparent,
                       child: InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          _signInWithGoogle();
+                        },
                         child: Center(
                           child: Text('Вход', style: TextStyle(fontFamily: 'DefaultFont', color: Colors.black, fontSize: 40)),
                         ),
@@ -181,5 +197,45 @@ class _LoginPageState extends State<LoginPage>{
         ),
       )
     );
+  }
+
+  Future<void> _handleSignIn() async {
+    GoogleSignInAccount googleSignInAccount = await _googleSignIn.signIn();
+    GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
+
+
+    AuthCredential credential = GoogleAuthProvider.getCredential(idToken: googleSignInAuthentication.idToken, accessToken: googleSignInAuthentication.accessToken);
+
+    AuthResult result = (await _auth.signInWithCredential(credential));
+
+    _user = result.user;
+    Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage()));
+  }
+
+
+  Future<void> _signInWithGoogle() async {
+    final formState = _formKey.currentState;
+    if(formState.validate()){
+      formState.save();
+      try{
+        AuthResult user = await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password);
+        Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage()));
+      }catch(e){
+        print(e.message);
+      }
+    }
+  }
+
+  void _signInFacebook() async {
+    FacebookLogin facebookLogin = FacebookLogin();
+
+    final result = await facebookLogin.logIn(['email']);
+    final token = result.accessToken.token;
+    final graphResponse = await http.get(
+        'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email&access_token=${token}');
+    if(result.status == FacebookLoginStatus.loggedIn){
+      final credential = FacebookAuthProvider.getCredential(accessToken: token);
+      _auth.signInWithCredential(credential);
+    }
   }
 }
