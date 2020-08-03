@@ -39,7 +39,7 @@ class _LoginPageState extends State<LoginPage>{
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            SizedBox(height: size.height / 3 - 30),
+            SizedBox(height: size.height / 3 - 35),
             Container(
               margin: EdgeInsets.only(left: size.width / 3),
               child: Text('Вход', style: TextStyle(fontFamily: 'DefaultFont', fontSize: 70)),
@@ -85,7 +85,7 @@ class _LoginPageState extends State<LoginPage>{
                 ],
               ),
             ),
-            SizedBox(height: 130),
+            SizedBox(height: 140),
             Row(
               children: <Widget>[
                 Container(
@@ -124,63 +124,52 @@ class _LoginPageState extends State<LoginPage>{
                 onPressed: () {},
               ),
             ),
-            SizedBox(height: 10),
             Row(
               children: <Widget>[
                 InkWell(
                   child: Container(
                     margin: EdgeInsets.only(left: 10),
-                    width: size.width / 2,
+                    width: size.width / 2.5,
                     height: size.height / 14,
                     decoration: BoxDecoration(
-                      gradient: LinearGradient(colors: [
-                        Colors.purple[200],
-                        Colors.purple[400],
-                        Colors.purple[700]
-                      ]),
+                      color: Color.fromRGBO(255, 204, 153, 1),
                       borderRadius: BorderRadius.circular(8),
                       boxShadow: [BoxShadow(
-                          color: Colors.red.withOpacity(.3),
-                          offset: Offset(0, 8),
-                          blurRadius: 8
-                      )],
+                        color: Colors.black.withOpacity(.3),
+                        offset: Offset(-5, 0)
+                      )]
                     ),
                     child: Material(
                       color: Colors.transparent,
                       child: InkWell(
                         onTap: () {},
                         child: Center(
-                          child: Text('Регистрация', style: TextStyle(fontFamily: 'DefaultFont',color: Colors.white, fontSize: 45)),
+                          child: Text('Регистрация', style: TextStyle(fontFamily: 'DefaultFont',color: Colors.black, fontSize: 40)),
                         ),
                       ),
                     ),
                   ),
                 ),
-                SizedBox(width: size.width / 9.5),
+                SizedBox(width: size.width / 5),
                 InkWell(
                   child: Container(
                     margin: EdgeInsets.only(right: 10),
                     width: size.width / 3,
                     height: size.height / 14,
                     decoration: BoxDecoration(
-                      gradient: LinearGradient(colors: [
-                        Colors.purple[200],
-                        Colors.purple[400],
-                        Colors.purple[700]
-                      ]),
+                      color: Color.fromRGBO(255, 204, 153, 1),
                       borderRadius: BorderRadius.circular(8),
                       boxShadow: [BoxShadow(
-                          color: Colors.red.withOpacity(.3),
-                          offset: Offset(0, 8),
-                          blurRadius: 8
-                      )],
+                        color: Colors.black.withOpacity(.3),
+                        offset: Offset(-5, 0)
+                      )]
                     ),
                     child: Material(
                       color: Colors.transparent,
                       child: InkWell(
                         onTap: () {},
                         child: Center(
-                          child: Text('Вход', style: TextStyle(fontFamily: 'DefaultFont', color: Colors.white, fontSize: 45)),
+                          child: Text('Вход', style: TextStyle(fontFamily: 'DefaultFont', color: Colors.black, fontSize: 40)),
                         ),
                       ),
                     ),
