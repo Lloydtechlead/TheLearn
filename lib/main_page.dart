@@ -18,21 +18,19 @@ class MainPage extends StatefulWidget{
 
 
 class _HomePageState extends State<MainPage>{
-  String userUid;
+  final String userUid;
   _HomePageState(this.userUid);
 
   int _currentIndex = 0;
 
-
-  final pages = [
-    HomePage(),
-    VideoLessonPage(),
-    TestsPage(),
-    ProfilePage(),
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final pages = [
+      HomePage(),
+      VideoLessonPage(),
+      TestsPage(),
+      ProfilePage(userUid: userUid),
+    ];
     print(userUid);
     // TODO: implement build
     return Scaffold(
@@ -62,7 +60,7 @@ class _HomePageState extends State<MainPage>{
           BottomNavigationBarItem(
               icon: Icon(Icons.account_circle),
               title: Text('Профиль'),
-          )
+          ),
         ],
         onTap: (index) {
           setState(() {
