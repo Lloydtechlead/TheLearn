@@ -22,7 +22,6 @@ class _SignUpState extends State<SignUpPage>{
   final GlobalKey<FormState> _formKey2 = GlobalKey<FormState>();
 
   String _email,_password;
-  String _classValue;
   String _nameValue, _surnameValue;
   String dropdownValue;
 
@@ -287,7 +286,7 @@ class _SignUpState extends State<SignUpPage>{
         {
           'name': _nameValue,
           'surname': _surnameValue,
-          'class': _classValue,
+          'class': dropdownValue,
           'email': _email
         }
       ).then((_) {
