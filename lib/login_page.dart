@@ -88,6 +88,7 @@ class _LoginPageState extends State<LoginPage>{
                           hintStyle: TextStyle(fontFamily: 'DefaultFont', fontSize: 25)
                       ),
                       onSaved: (input) => _password = input,
+                      obscureText: true,
                     ),
                   ),
                 ],
