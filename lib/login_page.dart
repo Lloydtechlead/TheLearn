@@ -210,7 +210,10 @@ class _LoginPageState extends State<LoginPage>{
     AuthResult result = (await _auth.signInWithCredential(credential));
 
     _user = result.user;
-    Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage()));
+
+    String userUid = _user.uid;
+
+    Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage(userUid: (userUid))));
   }
 
 
