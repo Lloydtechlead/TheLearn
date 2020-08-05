@@ -5,8 +5,10 @@ import 'main_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'pages/sign_up_page.dart';
+import 'pages/sign_up_page_social.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:http/http.dart' as http;
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 
 class LoginPage extends StatefulWidget{
@@ -23,6 +25,8 @@ class _LoginPageState extends State<LoginPage>{
   String _email, _password;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  final firestoreInstance = Firestore.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -213,7 +217,15 @@ class _LoginPageState extends State<LoginPage>{
 
     String userUid = _user.uid;
 
-    Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage(userUid: (userUid))));
+    firestoreInstance.collection("users").document(userUid).get().then((value) {
+      try {
+        value.data['name'];
+        Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage(userUid: userUid)));
+      } catch (_) {
+        Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpPageSocial(name: _user.displayName, email: _user.email)));
+      }
+    });
+
   }
 
 
@@ -223,7 +235,7 @@ class _LoginPageState extends State<LoginPage>{
       formState.save();
       try{
         AuthResult user = await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password);
-        Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage()));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage(userUid: user.user.uid)));
       }catch(e){
         print(e.message);
       }
@@ -242,4 +254,9 @@ class _LoginPageState extends State<LoginPage>{
       _auth.signInWithCredential(credential);
     }
   }
+
+  void navigateToSignUp(email, name, surname) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpPageSocial(name: name, surname: surname)));
+  }
+
 }
