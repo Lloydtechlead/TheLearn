@@ -185,7 +185,9 @@ class _SignUpStateSocial extends State<SignUpPageSocial>{
                   child: Material(
                     color: Colors.transparent,
                     child: InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        _createUserProfile();
+                      },
                       child: Center(
                         child: Text('Войти', style: TextStyle(fontFamily: 'DefaultFont',color: Colors.white, fontSize: 45)),
                       ),
