@@ -28,6 +28,30 @@ class _LoginPageState extends State<LoginPage>{
 
   final firestoreInstance = Firestore.instance;
 
+  ProgressBar _sendingMsgProgressBar;
+
+  @override
+  void initState() {
+    super.initState();
+    _sendingMsgProgressBar = ProgressBar();
+  }
+
+  @override
+  void dispose() {
+    _sendingMsgProgressBar.hide();
+    super.dispose();
+  }
+
+  @override
+  void showSendingProgressBar() {
+    _sendingMsgProgressBar.show(context);
+  }
+
+  @override
+  void hideSendingProgressBar() {
+    _sendingMsgProgressBar.hide();
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -205,6 +229,9 @@ class _LoginPageState extends State<LoginPage>{
   }
 
   Future<void> _handleSignIn() async {
+
+    showSendingProgressBar();
+
     GoogleSignInAccount googleSignInAccount = await _googleSignIn.signIn();
     GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
 
@@ -221,8 +248,14 @@ class _LoginPageState extends State<LoginPage>{
       try {
         value.data['name'];
         Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage(userUid: userUid)));
+        setState(() {
+          hideSendingProgressBar();
+        });
       } catch (_) {
         Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpPageSocial(name: _user.displayName, email: _user.email)));
+        setState(() {
+          hideSendingProgressBar();
+        });
       }
     });
 
@@ -230,14 +263,23 @@ class _LoginPageState extends State<LoginPage>{
 
 
   Future<void> _signInWithGoogle() async {
+
+    showSendingProgressBar();
+
     final formState = _formKey.currentState;
     if(formState.validate()){
       formState.save();
       try{
         AuthResult user = await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password);
         Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage(userUid: user.user.uid)));
+        setState(() {
+          hideSendingProgressBar();
+        });
       }catch(e){
         print(e.message);
+        setState(() {
+          hideSendingProgressBar();
+        });
       }
     }
   }
@@ -259,4 +301,30 @@ class _LoginPageState extends State<LoginPage>{
     Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpPageSocial(name: name, surname: surname)));
   }
 
+}
+
+
+class ProgressBar {
+
+  OverlayEntry _progressOverlayEntry;
+
+  void show(BuildContext context){
+    _progressOverlayEntry = _createdProgressEntry(context);
+    Overlay.of(context).insert(_progressOverlayEntry);
+  }
+
+  void hide(){
+    if(_progressOverlayEntry != null){
+      _progressOverlayEntry.remove();
+      _progressOverlayEntry = null;
+    }
+  }
+
+  OverlayEntry _createdProgressEntry(BuildContext context) =>
+      OverlayEntry(
+          builder: (BuildContext context) =>
+              Center(
+                child: CircularProgressIndicator()
+              )
+      );
 }
