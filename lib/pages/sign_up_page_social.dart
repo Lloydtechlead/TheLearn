@@ -211,7 +211,7 @@ class _SignUpStateSocial extends State<SignUpPageSocial>{
             'surname': _surnameValue,
             'class': dropdownValue,
             'email': email,
-            'photourl': 'https://firebasestorage.googleapis.com/v0/b/thelearn.appspot.com/o/profile_avatar.jpg?alt=media&token=141cae6d-8851-47d1-b5f3-3f99943d2fbf'
+            'photourl': 'https://firebasestorage.googleapis.com/v0/b/thelearn.appspot.com/o/profile_images%2Fprofile_avatar.jpg?alt=media&token=7e2637b5-39ed-448c-8949-19386f31fc2e'
           }
       ).then((_) {
         Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage(userUid: firebaseUser.uid)));

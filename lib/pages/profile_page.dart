@@ -6,6 +6,7 @@ class ProfilePage extends StatefulWidget{
 
   final String userUid;
 
+
   ProfilePage({Key key, @required this.userUid}) : super(key: key);
 
   @override
@@ -15,27 +16,33 @@ class ProfilePage extends StatefulWidget{
 
 class _ProfilePageState extends State<ProfilePage>{
 
+  String nameValue;
+  String surnameValue;
+  String classValue;
+
   final String userUid;
 
   _ProfilePageState(this.userUid);
 
   String imageUrl = 'https://firebasestorage.googleapis.com/v0/b/thelearn.appspot.com/o/profile_images%2Fprofile_avatar.jpg?alt=media&token=7e2637b5-39ed-448c-8949-19386f31fc2e';
 
-  final firestoreInstance = Firestore.instance;
-
+  Firestore firestoreInstance = Firestore.instance;
 
 
   @override
-  Widget build(BuildContext context) {
-    firestoreInstance.collection("users").document(userUid).get().then((value) {
-      try {
-        imageUrl = value.data['photourl'];
-      } catch (_) {
-        null;
-      }
+  void initState() {
+    firestoreInstance.collection('users').document(userUid).get().then((value) {
+      setState(() {
+        nameValue = value.data['name'];
+        surnameValue = value.data['surname'];
+        classValue =  value.data['class'];
+      });
     });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    // TODO: implement build
     return Scaffold(
       body: Container(
         width: size.width,
@@ -53,8 +60,23 @@ class _ProfilePageState extends State<ProfilePage>{
             Container(
               height: 100,
               width: 100,
-              margin: EdgeInsets.only(left: size.width / 8),
-              child: Image.network(imageUrl),
+              margin: EdgeInsets.only(left: size.width / 8.5),
+              child: Image.network(imageUrl)
+            ),
+            SizedBox(height: 20),
+            Container(
+              margin: EdgeInsets.only(left: size.width / 8.5),
+              child: Text(nameValue ?? 'Имя', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold))
+            ),
+            SizedBox(height: 10),
+            Container(
+                margin: EdgeInsets.only(left: size.width / 8.5),
+                child: Text(surnameValue ?? 'Фамилия', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold))
+            ),
+            SizedBox(height: 10),
+            Container(
+                margin: EdgeInsets.only(left: size.width / 8.5),
+                child: Text(classValue ?? 'Класс', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold))
             ),
           ],
         )
