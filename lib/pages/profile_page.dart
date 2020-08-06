@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 
 class ProfilePage extends StatefulWidget{
@@ -19,12 +20,11 @@ class _ProfilePageState extends State<ProfilePage>{
   String nameValue;
   String surnameValue;
   String classValue;
+  String imageUrl;
 
   final String userUid;
 
   _ProfilePageState(this.userUid);
-
-  String imageUrl = 'https://firebasestorage.googleapis.com/v0/b/thelearn.appspot.com/o/profile_images%2Fprofile_avatar.jpg?alt=media&token=7e2637b5-39ed-448c-8949-19386f31fc2e';
 
   Firestore firestoreInstance = Firestore.instance;
 
@@ -35,7 +35,8 @@ class _ProfilePageState extends State<ProfilePage>{
       setState(() {
         nameValue = value.data['name'];
         surnameValue = value.data['surname'];
-        classValue =  value.data['class'];
+        classValue = value.data['class'];
+        imageUrl = value.data['photourl'];
       });
     });
   }
@@ -60,23 +61,23 @@ class _ProfilePageState extends State<ProfilePage>{
             Container(
               height: 100,
               width: 100,
-              margin: EdgeInsets.only(left: size.width / 8.5),
-              child: Image.network(imageUrl)
+                margin: imageUrl != null ? EdgeInsets.only(left: size.width / 8.5) : EdgeInsets.only(left: size.width / 8),
+              child: imageUrl != null ? Image.network(imageUrl) : SpinKitCubeGrid(color: Colors.orangeAccent, size: 50)
             ),
             SizedBox(height: 20),
             Container(
-              margin: EdgeInsets.only(left: size.width / 8.5),
-              child: Text(nameValue ?? 'Имя', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold))
+              margin: nameValue != null ? EdgeInsets.only(left: size.width / 8) : EdgeInsets.only(right: size.width / 1.5),
+              child: nameValue != null ? Text(nameValue, style: TextStyle(fontWeight: FontWeight.bold)) : SpinKitWave(color: Colors.black12 , size: 15)
             ),
             SizedBox(height: 10),
             Container(
-                margin: EdgeInsets.only(left: size.width / 8.5),
-                child: Text(surnameValue ?? 'Фамилия', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold))
+                margin: surnameValue != null ? EdgeInsets.only(left: size.width / 8) : EdgeInsets.only(right: size.width / 1.5),
+                child: surnameValue != null ? Text(surnameValue, style: TextStyle(fontWeight: FontWeight.bold)) : SpinKitWave(color: Colors.black12 , size: 15)
             ),
             SizedBox(height: 10),
             Container(
-                margin: EdgeInsets.only(left: size.width / 8.5),
-                child: Text(classValue ?? 'Класс', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold))
+                margin: classValue != null ? EdgeInsets.only(left: size.width / 8) : EdgeInsets.only(right: size.width / 1.5),
+                child: classValue != null ? Text(classValue, style: TextStyle(fontWeight: FontWeight.bold)) : SpinKitWave(color: Colors.black12 , size: 15)
             ),
           ],
         )

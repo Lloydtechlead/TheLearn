@@ -37,6 +37,7 @@ dependencies:
   firebase_database:
   flutter_launcher_icons:
   cloud_firestore:
+  flutter_spinkit:
 
 dev_dependencies:
   flutter_test:

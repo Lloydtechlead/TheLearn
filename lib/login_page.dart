@@ -9,6 +9,7 @@ import 'pages/sign_up_page_social.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:http/http.dart' as http;
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 
 class LoginPage extends StatefulWidget{
@@ -324,7 +325,10 @@ class ProgressBar {
       OverlayEntry(
           builder: (BuildContext context) =>
               Center(
-                child: CircularProgressIndicator()
+                child: SpinKitCircle(
+                  color: Colors.blueAccent,
+                  size: 70,
+                )
               )
       );
 }
