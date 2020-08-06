@@ -7,19 +7,19 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SignUpPageSocial extends StatefulWidget{
 
-  final name, surname, email, photoUrl;
+  final name, surname, email;
 
-  SignUpPageSocial({Key key, @required this.name, this.surname, this.email, this.photoUrl}) : super(key: key);
+  SignUpPageSocial({Key key, @required this.name, this.surname, this.email,}) : super(key: key);
 
   @override
-  _SignUpStateSocial createState() => _SignUpStateSocial(name, surname, email, photoUrl);
+  _SignUpStateSocial createState() => _SignUpStateSocial(name, surname, email);
 }
 
 
 class _SignUpStateSocial extends State<SignUpPageSocial>{
 
-  final name, surname, email, photoUrl;
-  _SignUpStateSocial(this.name, this.surname, this.email, this.photoUrl);
+  final name, surname, email;
+  _SignUpStateSocial(this.name, this.surname, this.email);
 
   final firestoreInstance = Firestore.instance;
 
@@ -211,7 +211,7 @@ class _SignUpStateSocial extends State<SignUpPageSocial>{
             'surname': _surnameValue,
             'class': dropdownValue,
             'email': email,
-            'photourl': photoUrl
+            'photourl': 'https://firebasestorage.googleapis.com/v0/b/thelearn.appspot.com/o/profile_avatar.jpg?alt=media&token=141cae6d-8851-47d1-b5f3-3f99943d2fbf'
           }
       ).then((_) {
         Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage(userUid: firebaseUser.uid)));

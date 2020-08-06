@@ -252,7 +252,7 @@ class _LoginPageState extends State<LoginPage>{
           hideSendingProgressBar();
         });
       } catch (_) {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpPageSocial(name: _user.displayName, email: _user.email, photoUrl: _user.photoUrl)));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpPageSocial(name: _user.displayName, email: _user.email)));
         setState(() {
           hideSendingProgressBar();
         });
