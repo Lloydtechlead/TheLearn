@@ -76,19 +76,25 @@ class _VideoLessonPageState extends State<VideoLessonPage>{
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     // TODO: implement build
     return Column(
       children: <Widget>[
         SizedBox(height: 10),
         Expanded(
-          child: ListView.builder(
-            controller: controller,
-            itemCount: itemsData.length,
+          child: ListWheelScrollView.useDelegate(
+            itemExtent: 200,
+            diameterRatio: 3,
+            renderChildrenOutsideViewport: true,
+            clipToSize: false,
             physics: BouncingScrollPhysics(),
-            itemBuilder: (context, index) {
-              return itemsData[index];
-            },
-          ),
+            childDelegate: ListWheelChildBuilderDelegate(
+              childCount: itemsData.length,
+              builder: (context, index) {
+                return itemsData[index];
+              }
+            ),
+          )
         )
       ],
     );
