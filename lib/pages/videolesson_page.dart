@@ -1,83 +1,32 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:thelearn/items/4th_class.dart';
 
 class VideoLessonPage extends StatefulWidget{
 
+  final List lessonsNames;
+
+  VideoLessonPage({Key key, @required this.lessonsNames}) : super(key: key);
+
   @override
-  _VideoLessonPageState createState() => _VideoLessonPageState();
+  _VideoLessonPageState createState() => _VideoLessonPageState(lessonsNames);
 }
 
 
 class _VideoLessonPageState extends State<VideoLessonPage>{
 
+  final List lessonsNames;
+  _VideoLessonPageState(this.lessonsNames);
+
   ScrollController controller = ScrollController();
   bool closeTopContainer = false;
   double topContainer = 0;
-  List<Widget> itemsData = [];
-
-
-  void getPostsData() {
-    List<dynamic> responseList = FORTYTH_CLASS;
-    List<Widget> listItems = [];
-    responseList.forEach((post) {
-      Color _colorContainer;
-      if(post['name'] == 'Математика'){
-        _colorContainer = Colors.red[900];
-      }else if(post['name'] == 'Русский язык'){
-        _colorContainer = Colors.blue[900];
-      }else if(post['name'] == 'Литературное чтение'){
-        _colorContainer = Colors.yellow[900];
-      }else if(post['name'] == 'Английский язык'){
-        _colorContainer = Colors.brown[900];
-      }
-      listItems.add(Container(
-        height: 110,
-        margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20.0)), color: _colorContainer, boxShadow: [
-          BoxShadow(color: Colors.pink.withAlpha(100), blurRadius: 5)
-        ]),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 35),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Center(
-                    child: Text(post["name"], style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
-                  )
-                ],
-              )
-            ],
-          ),
-        ),
-      ));
-    });
-    setState(() {
-      itemsData = listItems;
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    getPostsData();
-    controller.addListener(() {
-      double value = controller.offset/119;
-
-      setState(() {
-        topContainer = value;
-        closeTopContainer = controller.offset > 50;
-      });
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     // TODO: implement build
+    print(lessonsNames);
+    print(lessonsNames.length);
     return Column(
       children: <Widget>[
         SizedBox(height: 10),
@@ -89,10 +38,14 @@ class _VideoLessonPageState extends State<VideoLessonPage>{
             clipToSize: false,
             physics: BouncingScrollPhysics(),
             childDelegate: ListWheelChildBuilderDelegate(
-              childCount: itemsData.length,
-              builder: (context, index) {
-                return itemsData[index];
-              }
+              childCount: lessonsNames.length,
+              builder: (context, index) => Container(
+                margin: EdgeInsets.only(left: 10, right: 10),
+                color: Colors.grey[400],
+                child: Center(
+                  child: Text(lessonsNames[index])
+                ),
+              )
             ),
           )
         )

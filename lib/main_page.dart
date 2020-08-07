@@ -3,7 +3,7 @@ import 'pages/home_page.dart';
 import 'pages/videolesson_page.dart';
 import 'pages/tests_page.dart';
 import 'pages/profile_page.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 
 class MainPage extends StatefulWidget{
@@ -23,11 +23,40 @@ class _HomePageState extends State<MainPage>{
 
   int _currentIndex = 0;
 
+  Firestore firestoreInstance = Firestore.instance;
+
+  List lessonsNames = [];
+
+  void getVideoLesson() {
+
+    List _classData = [];
+
+    firestoreInstance.collection('video_lesson').document('class_2').get().then((value) {
+      setState(() {
+        _classData = value.data.values.toList();
+        for(var i = 0; i < _classData.length; i++) {
+          if(_classData[i] == 'mathematics') {
+            lessonsNames.add('Матемитика');
+          }else if(_classData[i] == 'russian_language') {
+            lessonsNames.add('Русский язык');
+          }
+        }
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getVideoLesson();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     final pages = [
       HomePage(),
-      VideoLessonPage(),
+      VideoLessonPage(lessonsNames: lessonsNames),
       TestsPage(),
       ProfilePage(userUid: userUid),
     ];
