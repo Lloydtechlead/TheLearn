@@ -25,15 +25,14 @@ class _VideoLessonPageState extends State<VideoLessonPage>{
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     // TODO: implement build
-    print(lessonsNames);
-    print(lessonsNames.length);
     return Column(
       children: <Widget>[
         SizedBox(height: 10),
         Expanded(
           child: ListWheelScrollView.useDelegate(
-            itemExtent: 200,
+            itemExtent: 170,
             diameterRatio: 3,
+            squeeze: 0.8,
             renderChildrenOutsideViewport: true,
             clipToSize: false,
             physics: BouncingScrollPhysics(),
@@ -41,9 +40,16 @@ class _VideoLessonPageState extends State<VideoLessonPage>{
               childCount: lessonsNames.length,
               builder: (context, index) => Container(
                 margin: EdgeInsets.only(left: 10, right: 10),
-                color: Colors.grey[400],
                 child: Center(
                   child: Text(lessonsNames[index])
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.white,
+                  boxShadow: [BoxShadow(
+                    color: Colors.redAccent,
+                    blurRadius: 10
+                  )]
                 ),
               )
             ),

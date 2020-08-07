@@ -39,6 +39,8 @@ class _HomePageState extends State<MainPage>{
             lessonsNames.add('Матемитика');
           }else if(_classData[i] == 'russian_language') {
             lessonsNames.add('Русский язык');
+          }else if(_classData[i] == 'literature') {
+            lessonsNames.add('Литература');
           }
         }
       });
@@ -60,7 +62,6 @@ class _HomePageState extends State<MainPage>{
       TestsPage(),
       ProfilePage(userUid: userUid),
     ];
-    print(userUid);
     // TODO: implement build
     return Scaffold(
       body: pages[_currentIndex],
