@@ -48,6 +48,10 @@ class _HomePageState extends State<MainPage>{
             lessonsNames.add('Русский язык');
           }else if(_classData[i] == 'literature') {
             lessonsNames.add('Литература');
+          }else if(_classData[i] == 'surrounding_world') {
+            lessonsNames.add('Окружающий мир');
+          }else if(_classData[i] == 'english_language') {
+            lessonsNames.add('Английский язык');
           }
         }
       });
