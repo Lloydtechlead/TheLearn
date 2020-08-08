@@ -39,17 +39,24 @@ class _VideoLessonPageState extends State<VideoLessonPage>{
             childDelegate: ListWheelChildBuilderDelegate(
               childCount: lessonsNames.length,
               builder: (context, index) => Container(
-                margin: EdgeInsets.only(left: 10, right: 10),
-                child: Center(
-                  child: Text(lessonsNames[index])
-                ),
+                margin: EdgeInsets.only(left: 5, right: 5),
                 decoration: BoxDecoration(
+                  color: Colors.redAccent,
                   borderRadius: BorderRadius.circular(10),
-                  color: Colors.white,
                   boxShadow: [BoxShadow(
-                    color: Colors.redAccent,
+                    color: Colors.black,
                     blurRadius: 10
                   )]
+                ),
+                child: Container(
+                  margin: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
+                  child: Center(
+                      child: Text(lessonsNames[index])
+                  ),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white,
+                  ),
                 ),
               )
             ),
