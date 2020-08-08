@@ -5,41 +5,22 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class ProfilePage extends StatefulWidget{
 
-  final String userUid;
+  final String nameValue, surnameValue, classValue, imageUrl;
 
 
-  ProfilePage({Key key, @required this.userUid}) : super(key: key);
+  ProfilePage({Key key, @required this.nameValue, this.surnameValue, this.classValue, this.imageUrl}) : super(key: key);
 
   @override
-  _ProfilePageState createState() => _ProfilePageState(userUid);
+  _ProfilePageState createState() => _ProfilePageState(nameValue, surnameValue, classValue, imageUrl);
 }
 
 
 class _ProfilePageState extends State<ProfilePage>{
 
-  String nameValue;
-  String surnameValue;
-  String classValue;
-  String imageUrl;
+  final String nameValue, surnameValue, classValue, imageUrl;
 
-  final String userUid;
+  _ProfilePageState(this.nameValue, this.surnameValue, this.classValue, this.imageUrl);
 
-  _ProfilePageState(this.userUid);
-
-  Firestore firestoreInstance = Firestore.instance;
-
-
-  @override
-  void initState() {
-    firestoreInstance.collection('users').document(userUid).get().then((value) {
-      setState(() {
-        nameValue = value.data['name'];
-        surnameValue = value.data['surname'];
-        classValue = value.data['class'];
-        imageUrl = value.data['photourl'];
-      });
-    });
-  }
 
   @override
   Widget build(BuildContext context) {

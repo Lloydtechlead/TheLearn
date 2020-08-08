@@ -27,6 +27,13 @@ class _HomePageState extends State<MainPage>{
 
   List lessonsNames = [];
 
+  String nameValue;
+  String surnameValue;
+  String classValue;
+  String imageUrl;
+
+
+
   void getVideoLesson() {
 
     List _classData = [];
@@ -51,6 +58,14 @@ class _HomePageState extends State<MainPage>{
   void initState() {
     super.initState();
     getVideoLesson();
+    firestoreInstance.collection('users').document(userUid).get().then((value) {
+      setState(() {
+        nameValue = value.data['name'];
+        surnameValue = value.data['surname'];
+        classValue = value.data['class'];
+        imageUrl = value.data['photourl'];
+      });
+    });
   }
 
 
@@ -60,7 +75,7 @@ class _HomePageState extends State<MainPage>{
       HomePage(),
       VideoLessonPage(lessonsNames: lessonsNames),
       TestsPage(),
-      ProfilePage(userUid: userUid),
+      ProfilePage(nameValue: nameValue, surnameValue: surnameValue, classValue: classValue, imageUrl: imageUrl),
     ];
     // TODO: implement build
     return Scaffold(
