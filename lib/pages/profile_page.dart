@@ -1,25 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 
 class ProfilePage extends StatefulWidget{
 
-  final String nameValue, surnameValue, classValue, imageUrl;
+  final String nameValue, surnameValue, classValue;
+  Image imageProfile;
 
 
-  ProfilePage({Key key, @required this.nameValue, this.surnameValue, this.classValue, this.imageUrl}) : super(key: key);
+  ProfilePage({Key key, @required this.nameValue, this.surnameValue, this.classValue, this.imageProfile}) : super(key: key);
 
   @override
-  _ProfilePageState createState() => _ProfilePageState(nameValue, surnameValue, classValue, imageUrl);
+  _ProfilePageState createState() => _ProfilePageState(nameValue, surnameValue, classValue, imageProfile);
 }
 
 
 class _ProfilePageState extends State<ProfilePage>{
 
-  final String nameValue, surnameValue, classValue, imageUrl;
+  final String nameValue, surnameValue, classValue;
+  Image imageProfile;
 
-  _ProfilePageState(this.nameValue, this.surnameValue, this.classValue, this.imageUrl);
+  _ProfilePageState(this.nameValue, this.surnameValue, this.classValue, this.imageProfile);
 
 
   @override
@@ -42,8 +43,8 @@ class _ProfilePageState extends State<ProfilePage>{
             Container(
               height: 100,
               width: 100,
-                margin: imageUrl != null ? EdgeInsets.only(left: size.width / 8.5) : EdgeInsets.only(left: size.width / 8),
-              child: imageUrl != null ? Image.network(imageUrl) : SpinKitCubeGrid(color: Colors.orangeAccent, size: 50)
+                margin: EdgeInsets.only(left: size.width / 8),
+              child: imageProfile
             ),
             SizedBox(height: 20),
             Container(

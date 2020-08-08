@@ -31,7 +31,7 @@ class _HomePageState extends State<MainPage>{
   String surnameValue;
   String classValue;
   String imageUrl;
-
+  Image imageProfile;
 
 
   void getVideoLesson() {
@@ -63,7 +63,7 @@ class _HomePageState extends State<MainPage>{
         nameValue = value.data['name'];
         surnameValue = value.data['surname'];
         classValue = value.data['class'];
-        imageUrl = value.data['photourl'];
+        imageProfile = Image.network(value.data['photourl']);
       });
     });
   }
@@ -75,7 +75,7 @@ class _HomePageState extends State<MainPage>{
       HomePage(),
       VideoLessonPage(lessonsNames: lessonsNames),
       TestsPage(),
-      ProfilePage(nameValue: nameValue, surnameValue: surnameValue, classValue: classValue, imageUrl: imageUrl),
+      ProfilePage(nameValue: nameValue, surnameValue: surnameValue, classValue: classValue, imageProfile: imageProfile),
     ];
     // TODO: implement build
     return Scaffold(
