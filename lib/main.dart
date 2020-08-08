@@ -1,13 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:thelearn/login_page.dart';
-import 'package:thelearn/pages/home_page.dart';
 import 'login_page.dart';
 import 'main_page.dart';
-import 'pages/sign_up_page.dart';
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
 
-void main() => runApp(
-  MaterialApp(
-    debugShowCheckedModeBanner: false,
-    home: LoginPage(),
-  )
-);
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  String userData;
+  try {
+    final Directory directory = await getApplicationDocumentsDirectory();
+    final File file = File('${directory.path}/settings.txt');
+    userData = await file.readAsString();
+    runApp(
+        MaterialApp(
+          home: MainPage(userUid: userData),
+        )
+    );
+  } catch (e) {
+    runApp(
+        MaterialApp(
+          home: LoginPage(),
+        )
+    );
+  }
+}

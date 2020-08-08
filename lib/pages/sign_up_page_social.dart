@@ -3,23 +3,27 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:thelearn/main_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
 
 
 class SignUpPageSocial extends StatefulWidget{
 
-  final name, surname, email;
+  final name, surname, email, userUid;
 
-  SignUpPageSocial({Key key, @required this.name, this.surname, this.email,}) : super(key: key);
+  SignUpPageSocial({Key key, @required this.name, this.surname, this.email, this.userUid}) : super(key: key);
 
   @override
-  _SignUpStateSocial createState() => _SignUpStateSocial(name, surname, email);
+  _SignUpStateSocial createState() => _SignUpStateSocial(name, surname, email, userUid);
 }
 
 
 class _SignUpStateSocial extends State<SignUpPageSocial>{
 
-  final name, surname, email;
-  _SignUpStateSocial(this.name, this.surname, this.email);
+
+  final name, surname, email, userUid;
+  _SignUpStateSocial(this.name, this.surname, this.email, this.userUid);
+
 
   final firestoreInstance = Firestore.instance;
 
@@ -214,8 +218,16 @@ class _SignUpStateSocial extends State<SignUpPageSocial>{
             'photourl': 'https://firebasestorage.googleapis.com/v0/b/thelearn.appspot.com/o/profile_images%2Fprofile_avatar.jpg?alt=media&token=7e2637b5-39ed-448c-8949-19386f31fc2e'
           }
       ).then((_) {
+        writeSettings(userUid);
         Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage(userUid: firebaseUser.uid)));
       });
     }
+  }
+
+  writeSettings(String text) async {
+    final Directory directory = await getApplicationDocumentsDirectory();
+    final File file = File('${directory.path}/settings.txt');
+    await file.writeAsString(text);
+    print('Успешно!');
   }
 }
