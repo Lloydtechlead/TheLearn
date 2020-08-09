@@ -15,13 +15,15 @@ void main() async {
     userData = await file.readAsString();
     runApp(
         MaterialApp(
+          debugShowCheckedModeBanner: false,
           home: MainPage(userUid: userData),
         )
     );
   } catch (e) {
     runApp(
         MaterialApp(
-          home: LoginPage(),
+          debugShowCheckedModeBanner: false,
+          home: LoginPage(  ),
         )
     );
   }

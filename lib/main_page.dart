@@ -25,7 +25,9 @@ class _HomePageState extends State<MainPage>{
 
   Firestore firestoreInstance = Firestore.instance;
 
-  List lessonsNames = [];
+  List lessonsNamesRu = [];
+  List lessonsNamesEn = [];
+
 
   String nameValue;
   String surnameValue;
@@ -42,16 +44,17 @@ class _HomePageState extends State<MainPage>{
       setState(() {
         _classData = value.data.values.toList();
         for(var i = 0; i < _classData.length; i++) {
+          lessonsNamesEn.add(_classData[i]);
           if(_classData[i] == 'mathematics') {
-            lessonsNames.add('Матемитика');
+            lessonsNamesRu.add('Математика');
           }else if(_classData[i] == 'russian_language') {
-            lessonsNames.add('Русский язык');
+            lessonsNamesRu.add('Русский язык');
           }else if(_classData[i] == 'literature') {
-            lessonsNames.add('Литература');
+            lessonsNamesRu.add('Литература');
           }else if(_classData[i] == 'surrounding_world') {
-            lessonsNames.add('Окружающий мир');
+            lessonsNamesRu.add('Окружающий мир');
           }else if(_classData[i] == 'english_language') {
-            lessonsNames.add('Английский язык');
+            lessonsNamesRu.add('Английский язык');
           }
         }
       });
@@ -77,7 +80,7 @@ class _HomePageState extends State<MainPage>{
   Widget build(BuildContext context) {
     final pages = [
       HomePage(),
-      VideoLessonPage(lessonsNames: lessonsNames),
+      VideoLessonPage(lessonsNamesRu: lessonsNamesRu, lessonsNamesEn: lessonsNamesEn),
       TestsPage(),
       ProfilePage(nameValue: nameValue, surnameValue: surnameValue, classValue: classValue, imageProfile: imageProfile),
     ];
