@@ -1,5 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class VideoLessonPage extends StatefulWidget{
 
@@ -22,6 +22,10 @@ class _VideoLessonPageState extends State<VideoLessonPage>{
   double topContainer = 0;
 
   bool isTheme = false;
+
+  List themesList = [];
+
+  Firestore firestoreInstance = Firestore.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +50,7 @@ class _VideoLessonPageState extends State<VideoLessonPage>{
                   margin: EdgeInsets.only(left: 3, right: 3, top: 3, bottom: 3),
                   child: InkWell(
                     onTap: () {
-                      changeToTheme();
+                      changeToTheme(lessonsNamesEn[index]);
                     },
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -54,7 +58,8 @@ class _VideoLessonPageState extends State<VideoLessonPage>{
                       children: <Widget>[
                         Container(
                           margin: EdgeInsets.only(left: 25, top: 25),
-                          child: Text(lessonsNamesRu[index], style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30, fontFamily: 'DefaultFont')),
+                          child: isTheme == false ? Text(lessonsNamesRu[index], style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30, fontFamily: 'DefaultFont')) :
+                              Text(themesList[index])
                         )
                       ],
                     )
@@ -65,19 +70,60 @@ class _VideoLessonPageState extends State<VideoLessonPage>{
                   ),
                 )
               ),
-              itemCount: isTheme == false ? lessonsNamesRu.length : null
+              itemCount: isTheme == false ? lessonsNamesRu.length : themesList.length
           ),
-        )
+        ),
+        if(isTheme == true)
+          Container(
+            alignment: Alignment.bottomLeft,
+            padding: EdgeInsets.only(bottom: 10, left: 10),
+            child: Container(
+              width: size.width / 3,
+              height: size.height / 14,
+              decoration: BoxDecoration(
+                  color: Color.fromRGBO(255, 204, 153, 1),
+                  borderRadius: BorderRadius.circular(8),
+                  boxShadow: [BoxShadow(
+                      color: Colors.black.withOpacity(.3),
+                      blurRadius: 7
+                  )]
+              ),
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: () {
+                    changeToTheme(null);
+                  },
+                  child: Center(
+                    child: Text('Назад', style: TextStyle(fontFamily: 'DefaultFont', color: Colors.black, fontSize: 30)),
+                  ),
+                ),
+              ),
+            ),
+          )
       ],
     );
   }
 
-  void changeToTheme() {
+  void changeToTheme(nameLesson) {
     if(isTheme == false) {
-      isTheme = true;
+      setState(() {
+        isTheme = true;
+      });
+
+      firestoreInstance.collection('video_lesson').document('class_2').collection(nameLesson).getDocuments().then((value) {
+        value.documents.forEach((element) {
+          setState(() {
+            themesList.add(element.documentID);
+          });
+        });
+      });
 
     }else if(isTheme == true) {
-      isTheme = false;
+      setState(() {
+        isTheme = false;
+        themesList = [];
+      });
     }
   }
 }
