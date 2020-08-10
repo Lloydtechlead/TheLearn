@@ -27,6 +27,7 @@ class _SignUpState extends State<SignUpPage>{
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Container(
@@ -41,7 +42,7 @@ class _SignUpState extends State<SignUpPage>{
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Container(color: Colors.transparent),
-            SizedBox(height: 100),
+            SizedBox(height: size.height / 8),
            Form(
              key: _formKey1,
              child: Column(
@@ -77,7 +78,7 @@ class _SignUpState extends State<SignUpPage>{
                      ],
                    ),
                  ),
-                 SizedBox(height: 40),
+                 SizedBox(height: size.height / 18),
                  Container(
                    margin: EdgeInsets.only(left: 55),
                    height: 70,
@@ -113,7 +114,7 @@ class _SignUpState extends State<SignUpPage>{
                ],
              ),
            ),
-            SizedBox(height: 40),
+            SizedBox(height: size.height / 18),
             Form(
               key: _formKey,
               child: Column(
@@ -150,7 +151,7 @@ class _SignUpState extends State<SignUpPage>{
                       ],
                     ),
                   ),
-                  SizedBox(height: 40),
+                  SizedBox(height: size.height / 18),
                   Container(
                     margin: EdgeInsets.only(left: 35),
                     height: 70,
@@ -186,7 +187,7 @@ class _SignUpState extends State<SignUpPage>{
                 ],
               ),
             ),
-            SizedBox(height: 40),
+            SizedBox(height: size.height / 18),
             Container(
               width: 100,
               height: 60,
@@ -227,7 +228,7 @@ class _SignUpState extends State<SignUpPage>{
                 ),
               )
             ),
-            SizedBox(height: 30),
+            SizedBox(height: size.height / 19),
             InkWell(
               child: Container(
                 margin: EdgeInsets.only(left: 100),

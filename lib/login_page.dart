@@ -87,8 +87,8 @@ class _LoginPageState extends State<LoginPage>{
                   Container(
                     padding: EdgeInsets.all(15),
                     height: size.height / 11,
-                    width: size.width / 1.5,
-                    margin: EdgeInsets.only(left: size.width / 6),
+                    width: size.height / size.width * 150,
+                    margin: EdgeInsets.symmetric(horizontal: size.width / 6),
                     decoration: BoxDecoration(
                       color: Colors.redAccent,
                       borderRadius: BorderRadius.circular(10)
@@ -105,8 +105,8 @@ class _LoginPageState extends State<LoginPage>{
                   Container(
                     padding: EdgeInsets.all(15),
                     height: size.height / 11,
-                    width: size.width / 1.5,
-                    margin: EdgeInsets.only(left: size.width / 6),
+                    width: size.height / size.width * 150,
+                    margin: EdgeInsets.symmetric(horizontal: size.width / 6),
                     decoration: BoxDecoration(
                         color: Colors.redAccent,
                         borderRadius: BorderRadius.circular(10)
@@ -123,7 +123,7 @@ class _LoginPageState extends State<LoginPage>{
                 ],
               ),
             ),
-            SizedBox(height: 140),
+            SizedBox(height: size.height / 6.5),
             Row(
               children: <Widget>[
                 Container(

@@ -22,8 +22,7 @@ class _HomePageState extends State<HomePage>{
         decoration: BoxDecoration(
           image: DecorationImage(
             alignment: Alignment.topLeft,
-            image: ExactAssetImage("assets/home_page_progressbar.png", scale: 2.2),
-            fit: BoxFit.scaleDown
+            image: ExactAssetImage("assets/home_page_progressbar.png", scale: 2.3)
           ),
         ),
         child: Column(
