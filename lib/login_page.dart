@@ -58,9 +58,13 @@ class _LoginPageState extends State<LoginPage>{
     // TODO: implement build
 
     Size size = MediaQuery.of(context).size;
+    print(size.height);
+    print(size.width);
+    print(size.height / size.width);
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomPadding: false,
       body: Container(
         height: size.height,
         width: size.width,
@@ -85,10 +89,9 @@ class _LoginPageState extends State<LoginPage>{
               child: Column(
                 children: <Widget>[
                   Container(
-                    padding: EdgeInsets.all(15),
+                    padding: EdgeInsets.all(5),
                     height: size.height / 11,
-                    width: size.height / size.width * 150,
-                    margin: EdgeInsets.symmetric(horizontal: size.width / 6),
+                    margin: EdgeInsets.symmetric(horizontal: (size.width / (size.height / size.width)) / 2.5),
                     decoration: BoxDecoration(
                       color: Colors.redAccent,
                       borderRadius: BorderRadius.circular(10)
@@ -101,12 +104,11 @@ class _LoginPageState extends State<LoginPage>{
                       onSaved: (input) => _email = input,
                     ),
                   ),
-                  SizedBox(height: 25),
+                  SizedBox(height: size.height / 31),
                   Container(
-                    padding: EdgeInsets.all(15),
+                    padding: EdgeInsets.all(5),
                     height: size.height / 11,
-                    width: size.height / size.width * 150,
-                    margin: EdgeInsets.symmetric(horizontal: size.width / 6),
+                    margin: EdgeInsets.symmetric(horizontal: (size.width / (size.height / size.width)) / 2.5),
                     decoration: BoxDecoration(
                         color: Colors.redAccent,
                         borderRadius: BorderRadius.circular(10)
@@ -124,34 +126,38 @@ class _LoginPageState extends State<LoginPage>{
               ),
             ),
             SizedBox(height: size.height / 6.5),
-            Row(
-              children: <Widget>[
-                Container(
-                  margin: EdgeInsets.only(left: size.width / 7.5),
-                  child: SocialIcon(
-                    colors: [
-                      Color(0xFF102397),
-                      Color(0xFF187adf),
-                      Color(0xFF00eaf8)
-                    ],
-                    iconData: CustomIcons.facebook,
-                    onPressed: () {
-                      _signInFacebook();
-                    },
+            Container(
+              margin: EdgeInsets.only(left: (size.width / (size.height / size.width)) / 4, right: (size.width / (size.height / size.width)) / 2.6),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Container(
+                    alignment: Alignment.topLeft,
+                    child: SocialIcon(
+                      colors: [
+                        Color(0xFF102397),
+                        Color(0xFF187adf),
+                        Color(0xFF00eaf8)
+                      ],
+                      iconData: CustomIcons.facebook,
+                      onPressed: () {
+                        _signInFacebook();
+                      },
+                    ),
                   ),
-                ),
-                SizedBox(width: size.width / 2.8),
-                Container(
-                  child: SocialIcon(
-                    colors: [
-                      Color(0xFF17ead9),
-                      Color(0xFF6078ea),
-                    ],
-                    iconData: CustomIcons.twitter,
-                    onPressed: () {},
-                  ),
-                )
-              ],
+                  Container(
+                    alignment: Alignment.topRight,
+                    child: SocialIcon(
+                      colors: [
+                        Color(0xFF17ead9),
+                        Color(0xFF6078ea),
+                      ],
+                      iconData: CustomIcons.twitter,
+                      onPressed: () {},
+                    ),
+                  )
+                ],
+              ),
             ),
             Container(
               margin: EdgeInsets.only(left: size.width / 2.3),
