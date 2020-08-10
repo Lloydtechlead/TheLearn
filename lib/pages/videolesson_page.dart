@@ -111,7 +111,7 @@ class _VideoLessonPageState extends State<VideoLessonPage>{
         isTheme = true;
       });
 
-      firestoreInstance.collection('video_lesson').document('class_2').collection(nameLesson).getDocuments().then((value) {
+      firestoreInstance.collection('video_lesson').document('class_2').collection(nameLesson).orderBy("order").getDocuments().then((value) {
         value.documents.forEach((element) {
           setState(() {
             themesList.add(element.documentID);
