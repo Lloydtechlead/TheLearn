@@ -36,7 +36,7 @@ class _VideoLessonPageState extends State<VideoLessonPage>{
         Expanded(
           child: ListView.builder(
               itemBuilder: (context, index) => Container(
-                height: size.height / 6,
+                height: isTheme == false ? size.height / 6 : size.height / 8,
                 margin: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
                 decoration: BoxDecoration(
                   color: Colors.redAccent,
