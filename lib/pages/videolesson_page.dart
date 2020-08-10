@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_youtube/flutter_youtube.dart';
+import 'package:thelearn/utilities/keys.dart';
 
 class VideoLessonPage extends StatefulWidget{
 
@@ -24,6 +26,8 @@ class _VideoLessonPageState extends State<VideoLessonPage>{
   bool isTheme = false;
 
   List themesList = [];
+
+  String lessonName;
 
   Firestore firestoreInstance = Firestore.instance;
 
@@ -50,7 +54,11 @@ class _VideoLessonPageState extends State<VideoLessonPage>{
                   margin: EdgeInsets.only(left: 3, right: 3, top: 3, bottom: 3),
                   child: InkWell(
                     onTap: () {
-                      changeToTheme(lessonsNamesEn[index]);
+                      if(isTheme == false) {
+                        changeToTheme(lessonsNamesEn[index]);
+                      } else if(isTheme == true) {
+                        videoPlayer(themesList[index]);
+                      }
                     },
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -109,6 +117,7 @@ class _VideoLessonPageState extends State<VideoLessonPage>{
     if(isTheme == false) {
       setState(() {
         isTheme = true;
+        lessonName = nameLesson;
       });
 
       firestoreInstance.collection('video_lesson').document('class_2').collection(nameLesson).orderBy("order").getDocuments().then((value) {
@@ -123,7 +132,20 @@ class _VideoLessonPageState extends State<VideoLessonPage>{
       setState(() {
         isTheme = false;
         themesList = [];
+        lessonName = null;
       });
     }
+  }
+
+
+  void videoPlayer(themeName) {
+    firestoreInstance.collection('video_lesson').document('class_2').collection(lessonName).document(themeName).get().then((result) {
+      FlutterYoutube.playYoutubeVideoByUrl(
+        apiKey: youtubeApiKey,
+        videoUrl: result.data['videourl'],
+        fullScreen: true,
+        autoPlay: true
+      );
+    });
   }
 }

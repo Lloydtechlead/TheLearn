@@ -39,6 +39,7 @@ dependencies:
   cloud_firestore:
   flutter_spinkit:
   path_provider:
+  flutter_youtube:
 
 dev_dependencies:
   flutter_test:
