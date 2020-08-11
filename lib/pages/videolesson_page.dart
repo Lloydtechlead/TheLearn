@@ -6,18 +6,20 @@ import 'package:thelearn/utilities/keys.dart';
 class VideoLessonPage extends StatefulWidget{
 
   final List lessonsNamesRu, lessonsNamesEn;
+  final String classValue;
 
-  VideoLessonPage({Key key, @required this.lessonsNamesRu, this.lessonsNamesEn}) : super(key: key);
+  VideoLessonPage({Key key, @required this.lessonsNamesRu, this.lessonsNamesEn, this.classValue}) : super(key: key);
 
   @override
-  _VideoLessonPageState createState() => _VideoLessonPageState(lessonsNamesRu, lessonsNamesEn);
+  _VideoLessonPageState createState() => _VideoLessonPageState(lessonsNamesRu, lessonsNamesEn, classValue);
 }
 
 
 class _VideoLessonPageState extends State<VideoLessonPage>{
 
   final List lessonsNamesRu, lessonsNamesEn;
-  _VideoLessonPageState(this.lessonsNamesRu, this.lessonsNamesEn);
+  final String classValue;
+  _VideoLessonPageState(this.lessonsNamesRu, this.lessonsNamesEn, this.classValue);
 
   ScrollController controller = ScrollController();
   bool closeTopContainer = false;
@@ -120,7 +122,7 @@ class _VideoLessonPageState extends State<VideoLessonPage>{
         lessonName = nameLesson;
       });
 
-      firestoreInstance.collection('video_lesson').document('class_2').collection(nameLesson).orderBy("order").getDocuments().then((value) {
+      firestoreInstance.collection('video_lesson').document('class_${classValue}').collection(nameLesson).orderBy("order").getDocuments().then((value) {
         value.documents.forEach((element) {
           setState(() {
             themesList.add(element.documentID);
@@ -139,7 +141,7 @@ class _VideoLessonPageState extends State<VideoLessonPage>{
 
 
   void videoPlayer(themeName) {
-    firestoreInstance.collection('video_lesson').document('class_2').collection(lessonName).document(themeName).get().then((result) {
+    firestoreInstance.collection('video_lesson').document('class_$classValue').collection(lessonName).document(themeName).get().then((result) {
       FlutterYoutube.playYoutubeVideoByUrl(
         apiKey: youtubeApiKey,
         videoUrl: result.data['videourl'],

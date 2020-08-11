@@ -40,23 +40,25 @@ class _HomePageState extends State<MainPage>{
 
     List _classData = [];
 
-    firestoreInstance.collection('video_lesson').document('class_2').get().then((value) {
-      setState(() {
-        _classData = value.data.values.toList();
-        for(var i = 0; i < _classData.length; i++) {
-          lessonsNamesEn.add(_classData[i]);
-          if(_classData[i] == 'mathematics') {
-            lessonsNamesRu.add('Математика');
-          }else if(_classData[i] == 'russian_language') {
-            lessonsNamesRu.add('Русский язык');
-          }else if(_classData[i] == 'literature') {
-            lessonsNamesRu.add('Литература');
-          }else if(_classData[i] == 'surrounding_world') {
-            lessonsNamesRu.add('Окружающий мир');
-          }else if(_classData[i] == 'english_language') {
-            lessonsNamesRu.add('Английский язык');
+    firestoreInstance.collection('users').document(userUid).get().then((result) {
+      firestoreInstance.collection('video_lesson').document('class_${result.data['class']}').get().then((value) {
+        setState(() {
+          _classData = value.data.values.toList();
+          for(var i = 0; i < _classData.length; i++) {
+            lessonsNamesEn.add(_classData[i]);
+            if(_classData[i] == 'mathematics') {
+              lessonsNamesRu.add('Математика');
+            }else if(_classData[i] == 'russian_language') {
+              lessonsNamesRu.add('Русский язык');
+            }else if(_classData[i] == 'literature') {
+              lessonsNamesRu.add('Литература');
+            }else if(_classData[i] == 'surrounding_world') {
+              lessonsNamesRu.add('Окружающий мир');
+            }else if(_classData[i] == 'english_language') {
+              lessonsNamesRu.add('Английский язык');
+            }
           }
-        }
+        });
       });
     });
   }
@@ -80,7 +82,7 @@ class _HomePageState extends State<MainPage>{
   Widget build(BuildContext context) {
     final pages = [
       HomePage(),
-      VideoLessonPage(lessonsNamesRu: lessonsNamesRu, lessonsNamesEn: lessonsNamesEn),
+      VideoLessonPage(lessonsNamesRu: lessonsNamesRu, lessonsNamesEn: lessonsNamesEn, classValue: classValue),
       TestsPage(),
       ProfilePage(nameValue: nameValue, surnameValue: surnameValue, classValue: classValue, imageProfile: imageProfile),
     ];
