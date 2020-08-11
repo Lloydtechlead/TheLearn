@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 import 'Widgets/CustomIcons.dart';
 import 'Widgets/SocialIcons.dart';
 import 'main_page.dart';
@@ -237,6 +240,8 @@ class _LoginPageState extends State<LoginPage>{
 
   Future<void> _handleSignIn() async {
 
+    bool isLogIn = false;
+
     showSendingProgressBar();
 
     GoogleSignInAccount googleSignInAccount = await _googleSignIn.signIn();
@@ -251,12 +256,20 @@ class _LoginPageState extends State<LoginPage>{
 
     String userUid = _user.uid;
 
+    writeSettings(String text) async {
+      final Directory directory = await getApplicationDocumentsDirectory();
+      final File file = File('${directory.path}/settings.txt');
+      await file.writeAsString(text);
+    }
+
     firestoreInstance.collection("users").document(userUid).get().then((value) {
       try {
         value.data['name'];
+        writeSettings(userUid);
         Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage(userUid: userUid)));
         setState(() {
           hideSendingProgressBar();
+          isLogIn = true;
         });
       } catch (_) {
         Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpPageSocial(name: _user.displayName, email: _user.email, userUid: userUid)));
@@ -265,7 +278,6 @@ class _LoginPageState extends State<LoginPage>{
         });
       }
     });
-
   }
 
 
