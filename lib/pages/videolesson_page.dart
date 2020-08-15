@@ -21,10 +21,6 @@ class _VideoLessonPageState extends State<VideoLessonPage>{
   final String classValue;
   _VideoLessonPageState(this.lessonsNamesRu, this.lessonsNamesEn, this.classValue);
 
-  ScrollController controller = ScrollController();
-  bool closeTopContainer = false;
-  double topContainer = 0;
-
   bool isTheme = false;
 
   List themesList = [];
@@ -33,88 +29,65 @@ class _VideoLessonPageState extends State<VideoLessonPage>{
 
   Firestore firestoreInstance = Firestore.instance;
 
+
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     // TODO: implement build
     return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
         Expanded(
           child: ListView.builder(
-              itemBuilder: (context, index) => Container(
-                height: isTheme == false ? size.height / 6 : size.height / 8,
-                margin: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
+            reverse: true,
+            itemCount: lessonsNamesEn.length,
+            itemBuilder: (context, index) => Container(
+              margin: EdgeInsets.only(left: 10, right: 10),
+              decoration: BoxDecoration(
+                color: Colors.black,
+                borderRadius: BorderRadius.circular(6)
+              ),
+              child: Container(
+                height: 100,
+                margin: EdgeInsets.only(left: 12, right: 12, top: 2, bottom: 2),
                 decoration: BoxDecoration(
                   color: Colors.redAccent,
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: [BoxShadow(
-                    color: Colors.black,
-                    blurRadius: 7
-                  )]
+                  borderRadius: BorderRadius.circular(6),
                 ),
                 child: Container(
-                  margin: EdgeInsets.only(left: 3, right: 3, top: 3, bottom: 3),
-                  child: InkWell(
-                    onTap: () {
-                      if(isTheme == false) {
-                        changeToTheme(lessonsNamesEn[index]);
-                      } else if(isTheme == true) {
-                        videoPlayer(themesList[index]);
-                      }
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.only(left: 25, top: 25),
-                          child: isTheme == false ? Text(lessonsNamesRu[index], style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30, fontFamily: 'DefaultFont')) :
-                              Text(themesList[index])
-                        )
-                      ],
-                    )
-                  ),
+                  margin: EdgeInsets.only(left: 18, right: 18, top: 2, bottom: 2),
                   decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10)
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12)
                   ),
-                )
-              ),
-              itemCount: isTheme == false ? lessonsNamesRu.length : themesList.length
-          ),
-        ),
-        if(isTheme == true)
-          Container(
-            alignment: Alignment.bottomLeft,
-            padding: EdgeInsets.only(bottom: 10, left: 10),
-            child: Container(
-              width: size.width / 3,
-              height: size.height / 14,
-              decoration: BoxDecoration(
-                  color: Color.fromRGBO(255, 204, 153, 1),
-                  borderRadius: BorderRadius.circular(8),
-                  boxShadow: [BoxShadow(
-                      color: Colors.black.withOpacity(.3),
-                      blurRadius: 7
-                  )]
-              ),
-              child: Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  onTap: () {
-                    changeToTheme(null);
-                  },
-                  child: Center(
-                    child: Text('Назад', style: TextStyle(fontFamily: 'DefaultFont', color: Colors.black, fontSize: 30)),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: <Widget>[
+                      Container(
+                        margin: EdgeInsets.only(top: 30),
+                        height: 50,
+                        width: 150,
+                        color: Colors.black,
+                        child: Container(
+                          height: 47,
+                          width: 147,
+                          color: Colors.white,
+                          margin: EdgeInsets.all(5),
+                          child: Center(
+                            child: Text(lessonsNamesRu[index], style: TextStyle(fontFamily: 'VideoFont', fontSize: 20),),
+                          ),
+                        ),
+                      )
+                    ],
                   ),
                 ),
               ),
-            ),
-          )
+            )
+          ),
+        ),
+        Image.asset('assets/videolesson_picture_1.png'),
       ],
     );
   }
-
   void changeToTheme(nameLesson) {
     if(isTheme == false) {
       setState(() {
@@ -143,10 +116,10 @@ class _VideoLessonPageState extends State<VideoLessonPage>{
   void videoPlayer(themeName) {
     firestoreInstance.collection('video_lesson').document('class_$classValue').collection(lessonName).document(themeName).get().then((result) {
       FlutterYoutube.playYoutubeVideoByUrl(
-        apiKey: youtubeApiKey,
-        videoUrl: result.data['videourl'],
-        fullScreen: true,
-        autoPlay: true
+          apiKey: youtubeApiKey,
+          videoUrl: result.data['videourl'],
+          fullScreen: true,
+          autoPlay: true
       );
     });
   }
