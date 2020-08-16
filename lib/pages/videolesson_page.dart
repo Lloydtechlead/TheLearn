@@ -42,7 +42,13 @@ class _VideoLessonPageState extends State<VideoLessonPage>{
             itemCount: isTheme == true ? themesList.length : lessonsNamesEn.length,
             itemBuilder: (context, index) => InkWell(
               onTap: () {
-                changeToTheme(lessonsNamesEn[index]);
+                setState(() {
+                  if(isTheme == true) {
+                    videoPlayer(themesList[index]);
+                  }else {
+                    changeToTheme(lessonsNamesEn[index]);
+                  }
+                });
               },
               child: Container(
                 margin: EdgeInsets.only(left: 10, right: 10),
@@ -102,7 +108,7 @@ class _VideoLessonPageState extends State<VideoLessonPage>{
         lessonName = nameLesson;
       });
 
-      firestoreInstance.collection('video_lesson').document('class_${classValue}').collection(nameLesson).orderBy("order").getDocuments().then((value) {
+      firestoreInstance.collection('video_lesson').document('class_$classValue').collection(nameLesson).orderBy("order").getDocuments().then((value) {
         value.documents.forEach((element) {
           setState(() {
             themesList.add(element.documentID);
