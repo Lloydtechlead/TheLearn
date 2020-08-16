@@ -39,48 +39,55 @@ class _VideoLessonPageState extends State<VideoLessonPage>{
         Expanded(
           child: ListView.builder(
             reverse: true,
-            itemCount: lessonsNamesEn.length,
-            itemBuilder: (context, index) => Container(
-              margin: EdgeInsets.only(left: 10, right: 10),
-              decoration: BoxDecoration(
-                color: Colors.black,
-                borderRadius: BorderRadius.circular(6)
-              ),
+            itemCount: isTheme == true ? themesList.length : lessonsNamesEn.length,
+            itemBuilder: (context, index) => InkWell(
+              onTap: () {
+                changeToTheme(lessonsNamesEn[index]);
+              },
               child: Container(
-                height: 100,
-                margin: EdgeInsets.only(left: 12, right: 12, top: 2, bottom: 2),
+                margin: EdgeInsets.only(left: 10, right: 10),
                 decoration: BoxDecoration(
-                  color: Colors.redAccent,
-                  borderRadius: BorderRadius.circular(6),
+                    color: Colors.black,
+                    borderRadius: BorderRadius.circular(6)
                 ),
                 child: Container(
-                  margin: EdgeInsets.only(left: 18, right: 18, top: 2, bottom: 2),
+                  height: 100,
+                  margin: EdgeInsets.only(left: 12, right: 12, top: 2, bottom: 2),
                   decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12)
+                    color: Colors.redAccent,
+                    borderRadius: BorderRadius.circular(6),
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.only(top: 30),
-                        height: 50,
-                        width: 150,
-                        color: Colors.black,
-                        child: Container(
-                          height: 47,
-                          width: 147,
-                          color: Colors.white,
-                          margin: EdgeInsets.all(5),
-                          child: Center(
-                            child: Text(lessonsNamesRu[index], style: TextStyle(fontFamily: 'VideoFont', fontSize: 20),),
+                  child: Container(
+                    margin: EdgeInsets.only(left: 18, right: 18, top: 2, bottom: 2),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12)
+                    ),
+                    child: Column(
+                      crossAxisAlignment: isTheme == true ? CrossAxisAlignment.center : CrossAxisAlignment.center,
+                      children: <Widget>[
+                        isTheme == true ?
+                            Text(themesList[index]):
+                        Container(
+                          margin: EdgeInsets.only(top: 30),
+                          height: 50,
+                          width: 150,
+                          color: Colors.black,
+                          child: Container(
+                            height: 47,
+                            width: 147,
+                            color: Colors.white,
+                            margin: EdgeInsets.all(5),
+                            child: Center(
+                              child: Text(lessonsNamesRu[index], style: TextStyle(fontFamily: 'VideoFont', fontSize: 20),),
+                            ),
                           ),
-                        ),
-                      )
-                    ],
+                        )
+                      ],
+                    ),
                   ),
                 ),
-              ),
+              )
             )
           ),
         ),
