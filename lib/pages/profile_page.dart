@@ -51,10 +51,15 @@ class _ProfilePageState extends State<ProfilePage>{
           children: <Widget>[
             SizedBox(height: size.height * 0.13),
             Container(
+              margin: EdgeInsets.only(left: size.width / 8),
               height: 100,
-              width: 100,
-                margin: EdgeInsets.only(left: size.width / 8),
-              child: imageProfile
+              width: 80,
+              color: Colors.black,
+              child: Container(
+                  color: Colors.white,
+                  margin: EdgeInsets.all(3),
+                  child: imageProfile
+              ),
             ),
             SizedBox(height: 20),
             Container(
