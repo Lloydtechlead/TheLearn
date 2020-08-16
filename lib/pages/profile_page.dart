@@ -130,7 +130,7 @@ class _ProfilePageState extends State<ProfilePage>{
   
   
   void getRating() {
-    firestoreInstance.collection('rating').orderBy('viewed_video').getDocuments().then((result) {
+    firestoreInstance.collection('rating').orderBy("viewed_video", descending: true).getDocuments().then((result) {
       result.documents.forEach((element) {
         firestoreInstance.collection('users').document(element.documentID).get().then((value) {
           setState(() {
