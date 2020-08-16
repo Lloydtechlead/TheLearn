@@ -32,6 +32,7 @@ class _ProfilePageState extends State<ProfilePage>{
   List ratingNames = [];
   List videoNames = [];
 
+
   @override
   void initState() {
     getRating();
@@ -56,22 +57,31 @@ class _ProfilePageState extends State<ProfilePage>{
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             SizedBox(height: size.height * 0.13),
-            Container(
-              margin: EdgeInsets.only(left: size.width / 8),
-              height: 100,
-              width: 80,
-              color: Colors.black,
-              child: Container(
-                  color: Colors.white,
-                  margin: EdgeInsets.all(3),
-                  child: InkWell(
-                    child: imageProfile,
-                    onTap: () async {
-                      await getImage();
-                      uploadPicture(context);
-                    },
-                  )
-              ),
+            Row(
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.only(left: size.width / 8),
+                  height: 100,
+                  width: 80,
+                  color: Colors.black,
+                  child: Container(
+                      color: Colors.white,
+                      margin: EdgeInsets.all(3),
+                      child: InkWell(
+                        child: imageProfile,
+                        onTap: () async {
+                          await getImage();
+                          uploadPicture(context);
+                        },
+                      )
+                  ),
+                ),
+                SizedBox(width: size.width / 2.7),
+                Container(
+                  width: size.width / 6,
+                  child: Text('Рейтинг по России', style: TextStyle(fontFamily: 'VideoFont', fontSize: 20)),
+                )
+              ],
             ),
             SizedBox(height: 20),
             Container(
@@ -109,7 +119,7 @@ class _ProfilePageState extends State<ProfilePage>{
                 ),
                 child: ListView.builder(
                   itemCount: ratingNames.length,
-                  itemBuilder: (_, index) => Container(
+                  itemBuilder: (context, index) => Container(
                     padding: EdgeInsets.only(bottom: 20, left: 15, right: 15),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -130,17 +140,23 @@ class _ProfilePageState extends State<ProfilePage>{
   
   
   void getRating() {
+    List userUidList = [];
     firestoreInstance.collection('rating').orderBy("viewed_video", descending: true).getDocuments().then((result) {
       result.documents.forEach((element) {
-        firestoreInstance.collection('users').document(element.documentID).get().then((value) {
+        setState(() {
+          userUidList.add(element.documentID);
+          videoNames.add(element.data['viewed_video']);
+        });
+        });
+      for(var name in userUidList) {
+        firestoreInstance.collection('users').document(name).get().then((value) {
           setState(() {
             ratingNames.add(value['name'] + ' ' + value['surname']);
-            videoNames.add(element.data['viewed_video']);
           });
         });
+      }
       });
-    });
-  }
+    }
 
   Future getImage() async {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
