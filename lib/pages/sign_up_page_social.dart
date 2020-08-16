@@ -215,7 +215,7 @@ class _SignUpStateSocial extends State<SignUpPageSocial>{
             'surname': _surnameValue,
             'class': dropdownValue,
             'email': email,
-            'photourl': 'https://firebasestorage.googleapis.com/v0/b/thelearn.appspot.com/o/profile_images%2Fprofile_avatar.jpg?alt=media&token=7e2637b5-39ed-448c-8949-19386f31fc2e'
+            'photourl': 'https://firebasestorage.googleapis.com/v0/b/thelearn.appspot.com/o/profile_images%2Fprofile_avatar.jpg?alt=media&token=15a87011-7190-4805-8555-f6565a42e759'
           }
       ).then((_) {
         writeSettings(userUid);
