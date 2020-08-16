@@ -1,27 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:path/path.dart';
+import 'dart:io';
 
 
 class ProfilePage extends StatefulWidget{
 
-  final String nameValue, surnameValue, classValue;
+  final String nameValue, surnameValue, classValue, userUid;
   Image imageProfile;
 
 
-  ProfilePage({Key key, @required this.nameValue, this.surnameValue, this.classValue, this.imageProfile}) : super(key: key);
+  ProfilePage({Key key, @required this.nameValue, this.surnameValue, this.classValue, this.imageProfile, this.userUid}) : super(key: key);
 
   @override
-  _ProfilePageState createState() => _ProfilePageState(nameValue, surnameValue, classValue, imageProfile);
+  _ProfilePageState createState() => _ProfilePageState(nameValue, surnameValue, classValue, imageProfile, userUid);
 }
 
 
 class _ProfilePageState extends State<ProfilePage>{
 
-  final String nameValue, surnameValue, classValue;
+  final String nameValue, surnameValue, classValue, userUid;
   Image imageProfile;
 
-  _ProfilePageState(this.nameValue, this.surnameValue, this.classValue, this.imageProfile);
+  _ProfilePageState(this.nameValue, this.surnameValue, this.classValue, this.imageProfile, this.userUid);
 
   Firestore firestoreInstance = Firestore.instance;
 
@@ -32,6 +36,8 @@ class _ProfilePageState extends State<ProfilePage>{
   void initState() {
     getRating();
   }
+
+  File _imageFile;
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +64,13 @@ class _ProfilePageState extends State<ProfilePage>{
               child: Container(
                   color: Colors.white,
                   margin: EdgeInsets.all(3),
-                  child: imageProfile
+                  child: InkWell(
+                    child: imageProfile,
+                    onTap: () async {
+                      await getImage();
+                      uploadPicture(context);
+                    },
+                  )
               ),
             ),
             SizedBox(height: 20),
@@ -126,6 +138,26 @@ class _ProfilePageState extends State<ProfilePage>{
             videoNames.add(element.data['viewed_video']);
           });
         });
+      });
+    });
+  }
+
+  Future getImage() async {
+    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      _imageFile = image;
+    });
+  }
+
+  Future uploadPicture(BuildContext context) async {
+    String fileName = basename(_imageFile.path);
+    StorageReference firebaseStorageRef = FirebaseStorage.instance.ref().child('profile_images');
+    StorageUploadTask uploadTask = firebaseStorageRef.child(userUid).putFile(_imageFile);
+    StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
+    taskSnapshot.ref.getDownloadURL().then((value) {
+      firestoreInstance.collection('users').document(userUid).updateData({
+        'photourl': value
       });
     });
   }

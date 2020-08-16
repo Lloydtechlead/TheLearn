@@ -40,6 +40,8 @@ dependencies:
   flutter_spinkit:
   path_provider:
   flutter_youtube:
+  image_picker:
+  firebase_storage:
 
 dev_dependencies:
   flutter_test:

@@ -84,7 +84,7 @@ class _HomePageState extends State<MainPage>{
       HomePage(),
       VideoLessonPage(lessonsNamesRu: lessonsNamesRu, lessonsNamesEn: lessonsNamesEn, classValue: classValue, userUid: userUid),
       TestsPage(),
-      ProfilePage(nameValue: nameValue, surnameValue: surnameValue, classValue: classValue, imageProfile: imageProfile),
+      ProfilePage(nameValue: nameValue, surnameValue: surnameValue, classValue: classValue, imageProfile: imageProfile, userUid: userUid),
     ];
     // TODO: implement build
     return Scaffold(
