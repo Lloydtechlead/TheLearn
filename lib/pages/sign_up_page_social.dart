@@ -221,6 +221,10 @@ class _SignUpStateSocial extends State<SignUpPageSocial>{
         writeSettings(userUid);
         Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage(userUid: firebaseUser.uid)));
       });
+      firestoreInstance.collection('rating').document(firebaseUser.uid).setData({
+        'viewed_video': 0,
+        'test_results': 0
+      });
     }
   }
 

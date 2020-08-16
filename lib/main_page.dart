@@ -82,7 +82,7 @@ class _HomePageState extends State<MainPage>{
   Widget build(BuildContext context) {
     final pages = [
       HomePage(),
-      VideoLessonPage(lessonsNamesRu: lessonsNamesRu, lessonsNamesEn: lessonsNamesEn, classValue: classValue),
+      VideoLessonPage(lessonsNamesRu: lessonsNamesRu, lessonsNamesEn: lessonsNamesEn, classValue: classValue, userUid: userUid),
       TestsPage(),
       ProfilePage(nameValue: nameValue, surnameValue: surnameValue, classValue: classValue, imageProfile: imageProfile),
     ];

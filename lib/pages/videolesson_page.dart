@@ -6,20 +6,20 @@ import 'package:thelearn/utilities/keys.dart';
 class VideoLessonPage extends StatefulWidget{
 
   final List lessonsNamesRu, lessonsNamesEn;
-  final String classValue;
+  final String classValue, userUid;
 
-  VideoLessonPage({Key key, @required this.lessonsNamesRu, this.lessonsNamesEn, this.classValue}) : super(key: key);
+  VideoLessonPage({Key key, @required this.lessonsNamesRu, this.lessonsNamesEn, this.classValue, this.userUid}) : super(key: key);
 
   @override
-  _VideoLessonPageState createState() => _VideoLessonPageState(lessonsNamesRu, lessonsNamesEn, classValue);
+  _VideoLessonPageState createState() => _VideoLessonPageState(lessonsNamesRu, lessonsNamesEn, classValue, userUid);
 }
 
 
 class _VideoLessonPageState extends State<VideoLessonPage>{
 
   final List lessonsNamesRu, lessonsNamesEn;
-  final String classValue;
-  _VideoLessonPageState(this.lessonsNamesRu, this.lessonsNamesEn, this.classValue);
+  final String classValue, userUid;
+  _VideoLessonPageState(this.lessonsNamesRu, this.lessonsNamesEn, this.classValue, this.userUid);
 
   bool isTheme = false;
 
@@ -134,6 +134,19 @@ class _VideoLessonPageState extends State<VideoLessonPage>{
           fullScreen: true,
           autoPlay: true
       );
+    });
+    firestoreInstance.collection('rating').document(userUid).get().then((value) {
+      int viewedVideo = value.data['viewed_video'];
+      firestoreInstance.collection('rating').document(userUid).collection('viewed_video').where('theme_name', isEqualTo: themeName).getDocuments().then((value) {
+        if(value.documents.length == 0) {
+          firestoreInstance.collection('rating').document(userUid).collection('viewed_video').document(themeName).setData({
+            'theme_name': themeName
+          });
+          firestoreInstance.collection('rating').document(userUid).updateData({
+            'viewed_video': viewedVideo + 1
+          });
+        }
+      });
     });
   }
 }
