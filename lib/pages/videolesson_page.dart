@@ -70,7 +70,7 @@ class _VideoLessonPageState extends State<VideoLessonPage>{
                         borderRadius: BorderRadius.circular(12)
                     ),
                     child: Column(
-                      crossAxisAlignment: isTheme == true ? CrossAxisAlignment.center : CrossAxisAlignment.center,
+                      crossAxisAlignment: isTheme == true ? CrossAxisAlignment.center : CrossAxisAlignment.end,
                       children: <Widget>[
                         isTheme == true ?
                             Text(themesList[index]):
