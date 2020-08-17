@@ -51,6 +51,7 @@ class _ProfilePageState extends State<ProfilePage>{
   List ratingNames = [];
   List videoNames = [];
   List userPhotos = [];
+  int userRating;
 
 
   @override
@@ -104,7 +105,7 @@ class _ProfilePageState extends State<ProfilePage>{
                     SizedBox(width: devicePixelRatio * 50),
                     Container(
                       width: size.width / 6,
-                      child: Text('Рейтинг по России', style: TextStyle(fontFamily: 'VideoFont', fontSize: 20)),
+                      child: Text('Рейтинг по России $userRating', style: TextStyle(fontFamily: 'VideoFont', fontSize: 20)),
                     )
                   ],
                 ),
@@ -154,6 +155,7 @@ class _ProfilePageState extends State<ProfilePage>{
                                     Text('${index + 1}', style: TextStyle(fontFamily: 'VideoFont', fontSize: 17)),
                                     SizedBox(width: size.width / 30),
                                     CircleAvatar(
+                                      backgroundColor: Colors.redAccent,
                                       backgroundImage: NetworkImage(userPhotos[index]),
                                     ),
                                     SizedBox(width: size.width / 30),
@@ -184,6 +186,9 @@ class _ProfilePageState extends State<ProfilePage>{
             ratingNames.add(event.data['name'] + ' ' + event.data['surname']);
             userPhotos.add(event.data['photourl']);
             videoNames.add(element.data['viewed_video']);
+            if(event.documentID == userUid) {
+              userRating = ratingNames.length;
+            }
           });
         });
       });
