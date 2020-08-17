@@ -42,6 +42,7 @@ dependencies:
   flutter_youtube:
   image_picker:
   firebase_storage:
+  image_cropper:
 
 dev_dependencies:
   flutter_test:

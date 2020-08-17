@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart';
 import 'dart:io';
@@ -36,6 +37,7 @@ class _ProfilePageState extends State<ProfilePage>{
   @override
   void initState() {
     getRating();
+    super.initState();
   }
 
   File _imageFile;
@@ -61,12 +63,12 @@ class _ProfilePageState extends State<ProfilePage>{
                   children: <Widget>[
                     Container(
                       margin: EdgeInsets.only(left: size.width / 8),
-                      height: 100,
-                      width: 80,
+                      height: 122,
+                      width: 92,
                       color: Colors.black,
                       child: Container(
                           color: Colors.white,
-                          margin: EdgeInsets.all(3),
+                          margin: EdgeInsets.all(2),
                           child: InkWell(
                             child: imageProfile,
                             onTap: () async {
@@ -158,6 +160,27 @@ class _ProfilePageState extends State<ProfilePage>{
     setState(() {
       _imageFile = image;
     });
+    await _cropImage();
+  }
+
+  Future<Null> _cropImage() async {
+    File croppedFile = await ImageCropper.cropImage(
+        sourcePath: _imageFile.path,
+        cropStyle: CropStyle.rectangle,
+        aspectRatio: CropAspectRatio(ratioX: 3, ratioY: 4),
+        androidUiSettings: AndroidUiSettings(
+            toolbarTitle: 'Обрезка фото',
+            toolbarColor: Colors.redAccent,
+            toolbarWidgetColor: Colors.white,
+            lockAspectRatio: true,
+            hideBottomControls: true
+        ),
+        iosUiSettings: IOSUiSettings(
+          title: 'Cropper',
+        ));
+      setState(() {
+        _imageFile = croppedFile;
+      });
   }
 
   Future uploadPicture(BuildContext context) async {
