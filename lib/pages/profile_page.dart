@@ -32,6 +32,7 @@ class _ProfilePageState extends State<ProfilePage>{
 
   List ratingNames = [];
   List videoNames = [];
+  List userPhotos = [];
 
 
   @override
@@ -124,10 +125,17 @@ class _ProfilePageState extends State<ProfilePage>{
                         itemBuilder: (context, index) => Container(
                             padding: EdgeInsets.only(bottom: 20, left: 15, right: 15),
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: <Widget>[
-                                Text('${index + 1} ${ratingNames[index]}', style: TextStyle(fontFamily: 'VideoFont', fontSize: 20)),
-                                Text('${videoNames[index]} Видео', style: TextStyle(fontFamily: 'VideoFont', fontSize: 20))
+                                Text('${index + 1}', style: TextStyle(fontFamily: 'VideoFont', fontSize: 17)),
+                                SizedBox(width: size.width / 30),
+                                CircleAvatar(
+                                  backgroundImage: NetworkImage(userPhotos[index]),
+                                ),
+                                SizedBox(width: size.width / 30),
+                                Text('${ratingNames[index]}', style: TextStyle(fontFamily: 'VideoFont', fontSize: 17)),
+                                SizedBox(width: size.width / 15),
+                                Text('${videoNames[index]} Видео', style: TextStyle(fontFamily: 'VideoFont', fontSize: 17))
                               ],
                             )
                         ),
@@ -142,11 +150,12 @@ class _ProfilePageState extends State<ProfilePage>{
 
 
   void getRating() {
-    firestoreInstance.collection('rating').orderBy('viewed_video', descending: true).limit(10).snapshots().listen((event) {
+    firestoreInstance.collection('rating').orderBy('viewed_video', descending: true).limit(20).snapshots().listen((event) {
       event.documents.forEach((element) {
         firestoreInstance.collection('users').document(element.documentID).snapshots().listen((event) {
           setState(() {
             ratingNames.add(event.data['name'] + ' ' + event.data['surname']);
+            userPhotos.add(event.data['photourl']);
             videoNames.add(element.data['viewed_video']);
           });
         });
