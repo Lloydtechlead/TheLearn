@@ -4,6 +4,7 @@ import 'pages/videolesson_page.dart';
 import 'pages/tests_page.dart';
 import 'pages/profile_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 
 class MainPage extends StatefulWidget{
@@ -34,6 +35,8 @@ class _HomePageState extends State<MainPage>{
   String classValue;
   String imageUrl;
   Image imageProfile;
+
+  FirebaseMessaging firebaseMessaging = new FirebaseMessaging();
 
 
   void getVideoLesson() {
@@ -75,6 +78,17 @@ class _HomePageState extends State<MainPage>{
         imageProfile = Image.network(value.data['photourl']);
       });
     });
+    firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) {
+        print(message);
+      },
+      onResume: (Map<String, dynamic> message) {
+        print(message);
+      },
+      onLaunch: (Map<String, dynamic> message) {
+        print(message);
+      }
+    );
   }
 
 
