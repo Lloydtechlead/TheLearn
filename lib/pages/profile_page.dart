@@ -99,7 +99,7 @@ class _ProfilePageState extends State<ProfilePage>{
                 SizedBox(height: 10),
                 Container(
                     margin: classValue != null ? EdgeInsets.only(left: size.width / 8) : EdgeInsets.only(right: size.width / 1.5),
-                    child: classValue != null ? Text(classValue, style: TextStyle(fontWeight: FontWeight.bold)) : SpinKitWave(color: Colors.black12 , size: 15)
+                    child: classValue != null ? Text('Класс: $classValue', style: TextStyle(fontWeight: FontWeight.bold)) : SpinKitWave(color: Colors.black12 , size: 15)
                 ),
                 SizedBox(height: size.height / 6),
                 Container(
