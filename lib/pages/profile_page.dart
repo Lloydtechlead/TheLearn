@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -7,6 +9,22 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart';
 import 'dart:io';
 
+
+class SizeConfig {
+  static MediaQueryData _mediaQueryData;
+  static double screenWidth;
+  static double screenHeight;
+  static double blockSizeHorizontal;
+  static double blockSizeVertical;
+
+  void init(BuildContext context) {
+    _mediaQueryData = MediaQuery.of(context);
+    screenWidth = _mediaQueryData.size.width;
+    screenHeight = _mediaQueryData.size.height;
+    blockSizeHorizontal = screenWidth / 100;
+    blockSizeVertical = screenHeight / 100;
+  }
+}
 
 class ProfilePage extends StatefulWidget{
 
@@ -43,27 +61,31 @@ class _ProfilePageState extends State<ProfilePage>{
 
   File _imageFile;
 
+
   @override
   Widget build(BuildContext context) {
+    double devicePixelRatio = MediaQuery.of(context).devicePixelRatio;
     Size size = MediaQuery.of(context).size;
+    print(devicePixelRatio);
+    SizeConfig().init(context);
     return Scaffold(
         body: Container(
             width: size.width,
             height: size.height,
             decoration: BoxDecoration(
               image: DecorationImage(
-                alignment: Alignment(1, -0.7),
+                alignment: Alignment(1, SizeConfig.blockSizeVertical / -10),
                 image: ExactAssetImage("assets/profile_page_notepad.png"),
               ),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                SizedBox(height: size.height * 0.13),
+                SizedBox(height: SizeConfig.blockSizeVertical * 10),
                 Row(
                   children: <Widget>[
                     Container(
-                      margin: EdgeInsets.only(left: size.width / 8),
+                      margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 13),
                       height: 122,
                       width: 92,
                       color: Colors.black,
@@ -79,7 +101,7 @@ class _ProfilePageState extends State<ProfilePage>{
                           )
                       ),
                     ),
-                    SizedBox(width: size.width / 2.7),
+                    SizedBox(width: devicePixelRatio * 50),
                     Container(
                       width: size.width / 6,
                       child: Text('Рейтинг по России', style: TextStyle(fontFamily: 'VideoFont', fontSize: 20)),
