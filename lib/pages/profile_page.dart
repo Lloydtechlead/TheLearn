@@ -140,22 +140,16 @@ class _ProfilePageState extends State<ProfilePage>{
   
   
   void getRating() {
-    List userUidList = [];
-    firestoreInstance.collection('rating').orderBy("viewed_video", descending: true).getDocuments().then((result) {
-      result.documents.forEach((element) {
-        setState(() {
-          userUidList.add(element.documentID);
-          videoNames.add(element.data['viewed_video']);
-        });
-        });
-      for(var name in userUidList) {
-        firestoreInstance.collection('users').document(name).get().then((value) {
+    firestoreInstance.collection('rating').orderBy('viewed_video', descending: true).limit(10).snapshots().listen((event) {
+      event.documents.forEach((element) {
+        firestoreInstance.collection('users').document(element.documentID).snapshots().listen((event) {
           setState(() {
-            ratingNames.add(value['name'] + ' ' + value['surname']);
+            ratingNames.add(event.data['name'] + ' ' + event.data['surname']);
+            videoNames.add(element.data['viewed_video']);
           });
         });
-      }
       });
+    });
     }
 
   Future getImage() async {
