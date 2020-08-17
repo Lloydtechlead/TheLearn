@@ -123,19 +123,24 @@ class _ProfilePageState extends State<ProfilePage>{
                       child: ListView.builder(
                         itemCount: ratingNames.length,
                         itemBuilder: (context, index) => Container(
-                            padding: EdgeInsets.only(bottom: 20, left: 15, right: 15),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
+                            padding: EdgeInsets.only(left: 15, right: 15),
+                            child: Column(
                               children: <Widget>[
-                                Text('${index + 1}', style: TextStyle(fontFamily: 'VideoFont', fontSize: 17)),
-                                SizedBox(width: size.width / 30),
-                                CircleAvatar(
-                                  backgroundImage: NetworkImage(userPhotos[index]),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text('${index + 1}', style: TextStyle(fontFamily: 'VideoFont', fontSize: 17)),
+                                    SizedBox(width: size.width / 30),
+                                    CircleAvatar(
+                                      backgroundImage: NetworkImage(userPhotos[index]),
+                                    ),
+                                    SizedBox(width: size.width / 30),
+                                    Text('${ratingNames[index]}', style: TextStyle(fontFamily: 'VideoFont', fontSize: 17)),
+                                    SizedBox(width: size.width / 15),
+                                    Text('${videoNames[index]} Видео', style: TextStyle(fontFamily: 'VideoFont', fontSize: 17))
+                                  ],
                                 ),
-                                SizedBox(width: size.width / 30),
-                                Text('${ratingNames[index]}', style: TextStyle(fontFamily: 'VideoFont', fontSize: 17)),
-                                SizedBox(width: size.width / 15),
-                                Text('${videoNames[index]} Видео', style: TextStyle(fontFamily: 'VideoFont', fontSize: 17))
+                                Divider()
                               ],
                             )
                         ),
