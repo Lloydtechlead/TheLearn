@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:thelearn/services/admob_service.dart';
+import 'package:admob_flutter/admob_flutter.dart';
 
 
 class HomePage extends StatefulWidget{
@@ -11,6 +13,8 @@ class HomePage extends StatefulWidget{
 
 
 class _HomePageState extends State<HomePage>{
+
+  final ams = AdMobService();
 
   Firestore firestoreInstance = Firestore.instance;
   List themesList = [];
@@ -27,6 +31,7 @@ class _HomePageState extends State<HomePage>{
     // TODO: implement initState
     super.initState();
     // getNewVideos();
+    Admob.initialize(ams.getAdMobAppId());
   }
 
   @override
@@ -46,7 +51,7 @@ class _HomePageState extends State<HomePage>{
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: <Widget>[
-            SizedBox(height: size.height / 1.7,),
+            SizedBox(height: size.height / 1.85),
             Container(
               height: size.height / 12,
               width: size.width / 1.7,
@@ -88,6 +93,13 @@ class _HomePageState extends State<HomePage>{
                   )
                 ),
                 itemCount: 5,
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(bottom: 0),
+              child: AdmobBanner(
+                adUnitId: ams.getBannerAdId(),
+                adSize: AdmobBannerSize.FULL_BANNER,
               ),
             )
           ],
