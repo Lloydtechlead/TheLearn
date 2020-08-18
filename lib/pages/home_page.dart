@@ -80,9 +80,10 @@ class _HomePageState extends State<HomePage>{
                 itemBuilder: (context, index) => Container(
                   height: 90,
                   width: 270,
-                  margin: EdgeInsets.only(top: 15, bottom: 15, left: 5),
+                  margin: EdgeInsets.only(top: 15, bottom: 15, left: 5, right: 10),
                   color: Colors.black,
                   child: Container(
+                    margin: EdgeInsets.only(top: 2, bottom: 2, left: 3, right: 3),
                     child: createYoutubePlayerControllers(index),
                   )
                 ),
