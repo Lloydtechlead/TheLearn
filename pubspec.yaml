@@ -36,7 +36,6 @@ dependencies:
   flutter_facebook_login:
   firebase_database:
   flutter_launcher_icons:
-  cloud_firestore:
   flutter_spinkit:
   path_provider:
   flutter_youtube:
@@ -44,6 +43,8 @@ dependencies:
   firebase_storage:
   image_cropper:
   firebase_messaging:
+  cloud_firestore: ^0.13.7
+  youtube_player_flutter:
 
 dev_dependencies:
   flutter_test:

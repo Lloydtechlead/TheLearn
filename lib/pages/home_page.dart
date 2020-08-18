@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 
 class HomePage extends StatefulWidget{
@@ -10,6 +11,23 @@ class HomePage extends StatefulWidget{
 
 
 class _HomePageState extends State<HomePage>{
+
+  Firestore firestoreInstance = Firestore.instance;
+  List themesList = [];
+  List themesUrl = ['https://www.youtube.com/watch?v=KJpkjHGiI5A&t=23s', 'https://www.youtube.com/watch?v=KJpkjHGiI5A&t=23s', 'https://www.youtube.com/watch?v=KJpkjHGiI5A&t=23s', 'https://www.youtube.com/watch?v=KJpkjHGiI5A&t=23s', 'https://www.youtube.com/watch?v=KJpkjHGiI5A&t=23s'];
+
+  PlayerState _playerState;
+  YoutubeMetaData _videoMetaData;
+  double _volume = 100;
+  bool _muted = false;
+  bool _isPlayerReady = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    // getNewVideos();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,10 +75,58 @@ class _HomePageState extends State<HomePage>{
                     offset: Offset(0, 10)
                   )]
               ),
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) => Container(
+                  height: 90,
+                  width: 270,
+                  margin: EdgeInsets.only(top: 15, bottom: 15, left: 5),
+                  color: Colors.black,
+                  child: Container(
+                    child: createYoutubePlayerControllers(index),
+                  )
+                ),
+                itemCount: 5,
+              ),
             )
           ],
         ),
       ),
+    );
+  }
+  
+  void getNewVideos() {
+    
+    firestoreInstance.collection('video_lesson').document('class_2').collection('mathematics').limit(5).getDocuments().then((value) {
+      value.documents.forEach((element) {
+        themesList.add(element.documentID);
+        themesUrl.add(element.data['videourl']);
+      });
+    });
+  }
+
+  Widget createYoutubePlayerControllers(index) {
+    YoutubePlayerController _controller = YoutubePlayerController(
+      initialVideoId: YoutubePlayer.convertUrlToId(themesUrl[index]),
+      flags: YoutubePlayerFlags(
+        autoPlay: false,
+        mute: true
+      )
+    );
+
+    return YoutubePlayer(
+      controller: _controller,
+      showVideoProgressIndicator: true,
+      onReady: () {
+        _controller.addListener(() {
+          if (_isPlayerReady && mounted && !_controller.value.isFullScreen) {
+            setState(() {
+              _playerState = _controller.value.playerState;
+              _videoMetaData = _controller.metadata;
+            });
+          }
+        });
+      },
     );
   }
 }
