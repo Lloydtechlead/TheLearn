@@ -59,6 +59,14 @@ class _HomePageState extends State<MainPage>{
               lessonsNamesRu.add('Окружающий мир');
             }else if(_classData[i] == 'english_language') {
               lessonsNamesRu.add('Английский язык');
+            }else if(_classData[i] == 'biology') {
+              lessonsNamesRu.add('Биология');
+            }else if(_classData[i] == 'geography') {
+              lessonsNamesRu.add('География');
+            }else if(_classData[i] == 'social studies') {
+              lessonsNamesRu.add('Обществознание');
+            }else if(_classData[i] == 'informatics') {
+              lessonsNamesRu.add('Информатика');
             }
           }
         });
