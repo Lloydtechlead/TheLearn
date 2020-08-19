@@ -11,6 +11,8 @@ class CribsPageState extends State<CribsPage> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Column();
+    return Center(
+      child: Text('В будующих обновлениях!'),
+    );
   }
 }

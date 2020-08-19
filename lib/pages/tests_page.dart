@@ -14,7 +14,7 @@ class _TestsPageState extends State<TestsPage>{
   Widget build(BuildContext context) {
     // TODO: implement build
     return Center(
-      child: Text('Тесты'),
+      child: Text('В будующих обновлениях!'),
     );
   }
 }
