@@ -5,6 +5,7 @@ import 'pages/tests_page.dart';
 import 'pages/profile_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'pages/cribs.dart';
 
 
 class MainPage extends StatefulWidget{
@@ -106,6 +107,7 @@ class _HomePageState extends State<MainPage>{
       HomePage(),
       VideoLessonPage(lessonsNamesRu: lessonsNamesRu, lessonsNamesEn: lessonsNamesEn, classValue: classValue, userUid: userUid),
       TestsPage(),
+      CribsPage(),
       ProfilePage(nameValue: nameValue, surnameValue: surnameValue, classValue: classValue, imageProfile: imageProfile, userUid: userUid),
     ];
     // TODO: implement build
@@ -131,6 +133,11 @@ class _HomePageState extends State<MainPage>{
           BottomNavigationBarItem(
               icon: Icon(Icons.assignment),
               title: Text('Тесты'),
+          ),
+
+          BottomNavigationBarItem(
+            icon: Icon(Icons.book),
+            title: Text('Шпаргалки')
           ),
 
           BottomNavigationBarItem(
