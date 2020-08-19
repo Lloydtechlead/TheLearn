@@ -122,27 +122,27 @@ class _HomePageState extends State<MainPage>{
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            title: Text('Главная'),
+            title: Text('Главная', style: TextStyle(fontSize: 13)),
           ),
 
           BottomNavigationBarItem(
               icon: Icon(Icons.videocam),
-              title: Text('Видеоуроки'),
+              title: Text('Видеоуроки', style: TextStyle(fontSize: 13)),
           ),
 
           BottomNavigationBarItem(
               icon: Icon(Icons.assignment),
-              title: Text('Тесты'),
+              title: Text('Тесты', style: TextStyle(fontSize: 13)),
           ),
 
           BottomNavigationBarItem(
             icon: Icon(Icons.book),
-            title: Text('Шпаргалки')
+            title: Text('Шпаргалки', style: TextStyle(fontSize: 13))
           ),
 
           BottomNavigationBarItem(
               icon: Icon(Icons.account_circle),
-              title: Text('Профиль'),
+              title: Text('Профиль', style: TextStyle(fontSize: 13)),
           ),
         ],
         onTap: (index) {
