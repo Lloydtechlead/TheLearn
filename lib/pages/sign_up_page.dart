@@ -4,6 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:thelearn/login_page.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
 
 
 class SignUpPage extends StatefulWidget{
@@ -297,9 +299,17 @@ class _SignUpState extends State<SignUpPage>{
       firestoreInstance.collection('rating').document(firebaseUser.uid).setData({
         'viewed_video': 0,
         'test_results': 0
+      }).then((value) {
+        writeSettings(firebaseUser.uid);
       });
     }
   }
 
+  writeSettings(String text) async {
+    final Directory directory = await getApplicationDocumentsDirectory();
+    final File file = File('${directory.path}/settings.txt');
+    await file.writeAsString(text);
+    print('Успешно!');
+  }
 
 }
