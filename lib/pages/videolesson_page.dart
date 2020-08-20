@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_youtube/flutter_youtube.dart';
 import 'package:thelearn/utilities/keys.dart';
+import 'theme_page.dart';
 
 class VideoLessonPage extends StatefulWidget{
 
@@ -50,7 +51,7 @@ class _VideoLessonPageState extends State<VideoLessonPage>{
                     onTap: () {
                       setState(() {
                         if(isTheme == true) {
-                          videoPlayer(themesList[index]);
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => ThemePage(lessonName: lessonName, themeName: themesList[index], classValue: classValue, userUid: userUid)));
                         }else {
                           changeToTheme(lessonsNamesEn[index]);
                         }
@@ -130,30 +131,5 @@ class _VideoLessonPageState extends State<VideoLessonPage>{
         lessonName = null;
       });
     }
-  }
-
-
-  void videoPlayer(themeName) {
-    firestoreInstance.collection('video_lesson').document('class_$classValue').collection(lessonName).document(themeName).get().then((result) {
-      FlutterYoutube.playYoutubeVideoByUrl(
-          apiKey: youtubeApiKey,
-          videoUrl: result.data['videourl'],
-          fullScreen: true,
-          autoPlay: true
-      );
-    });
-    firestoreInstance.collection('rating').document(userUid).get().then((value) {
-      int viewedVideo = value.data['viewed_video'];
-      firestoreInstance.collection('rating').document(userUid).collection('viewed_video').where('theme_name', isEqualTo: themeName).getDocuments().then((value) {
-        if(value.documents.length == 0) {
-          firestoreInstance.collection('rating').document(userUid).collection('viewed_video').document(themeName).setData({
-            'theme_name': themeName
-          });
-          firestoreInstance.collection('rating').document(userUid).updateData({
-            'viewed_video': viewedVideo + 1
-          });
-        }
-      });
-    });
   }
 }
