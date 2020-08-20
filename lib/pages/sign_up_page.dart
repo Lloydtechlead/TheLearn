@@ -288,10 +288,15 @@ class _SignUpState extends State<SignUpPage>{
           'name': _nameValue,
           'surname': _surnameValue,
           'class': dropdownValue,
-          'email': _email
+          'email': _email,
+          'photourl': 'https://firebasestorage.googleapis.com/v0/b/thelearn.appspot.com/o/profile_images%2Fprofile_avatar.jpg?alt=media&token=15a87011-7190-4805-8555-f6565a42e759'
         }
       ).then((_) {
         print("success!");
+      });
+      firestoreInstance.collection('rating').document(firebaseUser.uid).setData({
+        'viewed_video': 0,
+        'test_results': 0
       });
     }
   }

@@ -68,6 +68,16 @@ class _HomePageState extends State<MainPage>{
               lessonsNamesRu.add('Обществознание');
             }else if(_classData[i] == 'informatics') {
               lessonsNamesRu.add('Информатика');
+            }else if(_classData[i] == 'algebra') {
+              lessonsNamesRu.add('Алгебра');
+            }else if(_classData[i] == 'geometry') {
+              lessonsNamesRu.add('Геометрия');
+            }else if(_classData[i] == 'physics') {
+              lessonsNamesRu.add('Физика');
+            }else if(_classData[i] == 'general history') {
+              lessonsNamesRu.add('Всеобщая история');
+            }else if(_classData[i] == 'history of Russia') {
+              lessonsNamesRu.add('История России');
             }
           }
         });
