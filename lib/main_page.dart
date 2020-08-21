@@ -192,7 +192,7 @@ class _HomePageState extends State<MainPage>{
         return AlertDialog(
           title: Row(
             children: <Widget>[
-              Icon(Icons.error),
+              Icon(Icons.signal_wifi_off),
               Text('Ошибка подключения')
             ],
           ),
