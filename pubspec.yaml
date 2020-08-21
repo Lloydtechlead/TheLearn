@@ -46,6 +46,7 @@ dependencies:
   cloud_firestore: ^0.13.7
   youtube_player_flutter:
   admob_flutter:
+  connectivity:
 
 dev_dependencies:
   flutter_test:
