@@ -78,6 +78,10 @@ class _HomePageState extends State<MainPage>{
               lessonsNamesRu.add('Всеобщая история');
             }else if(_classData[i] == 'history of Russia') {
               lessonsNamesRu.add('История России');
+            }else if(_classData[i] == 'chemistry') {
+              lessonsNamesRu.add('Химия');
+            }else if(_classData[i] == 'life safety') {
+              lessonsNamesRu.add('ОБЖ');
             }
           }
         });
