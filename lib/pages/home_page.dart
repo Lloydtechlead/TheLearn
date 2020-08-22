@@ -18,7 +18,7 @@ class _HomePageState extends State<HomePage>{
 
   Firestore firestoreInstance = Firestore.instance;
   List themesList = [];
-  List themesUrl = ['https://www.youtube.com/watch?v=KJpkjHGiI5A&t=23s', 'https://www.youtube.com/watch?v=KJpkjHGiI5A&t=23s', 'https://www.youtube.com/watch?v=KJpkjHGiI5A&t=23s', 'https://www.youtube.com/watch?v=KJpkjHGiI5A&t=23s', 'https://www.youtube.com/watch?v=KJpkjHGiI5A&t=23s'];
+  List themesUrl = ['https://www.youtube.com/watch?v=KJpkjHGiI5A&t=23s', 'https://www.youtube.com/watch?v=KJpkjHGiI5A&t=23s', 'https://www.youtube.com/watch?v=KJpkjHGiI5A&t=23s'];
 
   PlayerState _playerState;
   YoutubeMetaData _videoMetaData;
@@ -92,7 +92,7 @@ class _HomePageState extends State<HomePage>{
                     child: createYoutubePlayerControllers(index),
                   )
                 ),
-                itemCount: 5,
+                itemCount: themesUrl.length,
               ),
             ),
             Container(
