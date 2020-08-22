@@ -46,16 +46,15 @@ class SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Image.asset('assets/app_icon.jpg', scale: 2),
+          Image.asset('assets/splash_icon.png', scale: 2),
           Shimmer.fromColors(
             period: Duration(milliseconds: 1500),
             baseColor: Colors.redAccent,
             highlightColor: Colors.deepPurple,
             child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 20),
+              alignment: Alignment.center,
               child: Text('TheLearn - Учись, просто!', style: TextStyle(
                   fontFamily: 'VideoFont',
                   fontSize: 30,
