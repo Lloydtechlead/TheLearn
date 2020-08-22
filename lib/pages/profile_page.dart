@@ -6,23 +6,8 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart';
 import 'dart:io';
-
-
-class SizeConfig {
-  static MediaQueryData _mediaQueryData;
-  static double screenWidth;
-  static double screenHeight;
-  static double blockSizeHorizontal;
-  static double blockSizeVertical;
-
-  void init(BuildContext context) {
-    _mediaQueryData = MediaQuery.of(context);
-    screenWidth = _mediaQueryData.size.width;
-    screenHeight = _mediaQueryData.size.height;
-    blockSizeHorizontal = screenWidth / 100;
-    blockSizeVertical = screenHeight / 100;
-  }
-}
+import 'user_page.dart';
+import 'package:thelearn/Widgets/size_config.dart';
 
 class ProfilePage extends StatefulWidget{
 
@@ -49,6 +34,7 @@ class _ProfilePageState extends State<ProfilePage>{
   List ratingNames = [];
   List videoNames = [];
   List userPhotos = [];
+  List usersUid = [];
   int userRating;
 
 
@@ -157,7 +143,12 @@ class _ProfilePageState extends State<ProfilePage>{
                                       backgroundImage: NetworkImage(userPhotos[index]),
                                     ),
                                     SizedBox(width: size.width / 30),
-                                    Text('${ratingNames[index]}', style: TextStyle(fontFamily: 'VideoFont', fontSize: 17)),
+                                    InkWell(
+                                      child: Text('${ratingNames[index]}', style: TextStyle(fontFamily: 'VideoFont', fontSize: 17)),
+                                      onTap: () {
+                                        Navigator.push(context, MaterialPageRoute(builder: (context) => UserPage(userUid: usersUid[index], userRating: index + 1)));
+                                      },
+                                    ),
                                     SizedBox(width: size.width / 15),
                                     Text('${videoNames[index]} Видео', style: TextStyle(fontFamily: 'VideoFont', fontSize: 17))
                                   ],
@@ -184,6 +175,7 @@ class _ProfilePageState extends State<ProfilePage>{
             ratingNames.add(event.data['name'] + ' ' + event.data['surname']);
             userPhotos.add(event.data['photourl']);
             videoNames.add(element.data['viewed_video']);
+            usersUid.add(element.documentID);
             if(event.documentID == userUid) {
               userRating = ratingNames.length;
             }
