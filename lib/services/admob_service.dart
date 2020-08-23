@@ -9,9 +9,17 @@ class AdMobService {
      return null;
    }
 
-   String getBannerAdId() {
+   String getBannerAdIdHomePage() {
      if(Platform.isAndroid) {
        return 'ca-app-pub-7131176346219862/1080148429';
      }
+     return null;
+   }
+
+   String getBannerAdIdMainPage() {
+     if(Platform.isAndroid) {
+       return 'ca-app-pub-7131176346219862/4294018013';
+     }
+     return null;
    }
 }

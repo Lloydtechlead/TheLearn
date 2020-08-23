@@ -48,6 +48,7 @@ dependencies:
   admob_flutter:
   connectivity:
   shimmer: ^1.0.1
+  firebase_admob:
 
 dev_dependencies:
   flutter_test:

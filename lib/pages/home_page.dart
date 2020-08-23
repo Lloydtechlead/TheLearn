@@ -98,7 +98,7 @@ class _HomePageState extends State<HomePage>{
             Container(
               margin: EdgeInsets.only(bottom: 0),
               child: AdmobBanner(
-                adUnitId: ams.getBannerAdId(),
+                adUnitId: ams.getBannerAdIdHomePage(),
                 adSize: AdmobBannerSize.FULL_BANNER,
               ),
             )

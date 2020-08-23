@@ -7,7 +7,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'pages/cribs.dart';
 import 'package:connectivity/connectivity.dart';
+import 'package:firebase_admob/firebase_admob.dart';
+import 'package:thelearn/services/admob_service.dart';
+import 'dart:async';
 
+
+const String testDevice = '6376F41E06D56F573CFB635CF2637A32';
 
 class MainPage extends StatefulWidget{
 
@@ -21,6 +26,12 @@ class MainPage extends StatefulWidget{
 
 
 class _HomePageState extends State<MainPage>{
+  static const MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
+    testDevices: testDevice != null ? <String>[testDevice] : null,
+    nonPersonalizedAds: true,
+    keywords: <String>['learning', 'learn', 'programming'],
+  );
+
   final String userUid;
   _HomePageState(this.userUid);
 
@@ -42,6 +53,8 @@ class _HomePageState extends State<MainPage>{
 
   List _classData = [];
 
+  final ams = AdMobService();
+  InterstitialAd _interstitialAd;
 
   void getVideoLesson() async {
 
@@ -60,8 +73,19 @@ class _HomePageState extends State<MainPage>{
     super.initState();
     getVideoLesson();
     getUserInfo();
+    showInterstitialAd();
   }
 
+
+  InterstitialAd createInterstitialAd() {
+    return InterstitialAd(
+        adUnitId: InterstitialAd.testAdUnitId,
+        //Change Interstitial AdUnitId with Admob ID
+        targetingInfo: targetingInfo,
+        listener: (MobileAdEvent event) {
+          print("IntersttialAd $event");
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -227,6 +251,20 @@ class _HomePageState extends State<MainPage>{
           ],
         );
       }
+    );
+  }
+
+  void showInterstitialAd() {
+
+    Timer _timer;
+
+
+    const timeOut = Duration(minutes: 7);
+    _timer = new Timer.periodic(
+      timeOut,
+        (Timer timer) => setState(() {
+          createInterstitialAd()..load()..show();
+        })
     );
   }
 }
