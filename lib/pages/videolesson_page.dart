@@ -61,7 +61,11 @@ class _VideoLessonPageState extends State<VideoLessonPage>{
                       margin: EdgeInsets.only(left: 10, right: 10),
                       decoration: BoxDecoration(
                           color: Colors.black,
-                          borderRadius: BorderRadius.circular(6)
+                          borderRadius: BorderRadius.circular(6),
+                          boxShadow: [BoxShadow(
+                            color: Colors.black,
+                            blurRadius: 7
+                          )]
                       ),
                       child: Container(
                         height: 100,
