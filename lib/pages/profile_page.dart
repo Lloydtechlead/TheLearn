@@ -167,8 +167,8 @@ class _ProfilePageState extends State<ProfilePage>{
   }
 
 
-  void getRating() {
-    firestoreInstance.collection('rating').orderBy('viewed_video', descending: true).limit(20).snapshots().listen((event) {
+  void getRating() async {
+    await firestoreInstance.collection('rating').orderBy('viewed_video', descending: true).limit(20).snapshots().listen((event) {
       event.documents.forEach((element) {
         firestoreInstance.collection('users').document(element.documentID).snapshots().listen((event) {
           setState(() {
