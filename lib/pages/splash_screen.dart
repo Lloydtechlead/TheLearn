@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:thelearn/main_page.dart';
 import 'package:thelearn/login_page.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SplashScreen extends StatefulWidget {
 
@@ -13,6 +14,8 @@ class SplashScreen extends StatefulWidget {
 
 
 class SplashScreenState extends State<SplashScreen> {
+
+  Firestore firestoreInstance = Firestore.instance;
 
   String userData;
 
@@ -36,7 +39,13 @@ class SplashScreenState extends State<SplashScreen> {
       final Directory directory = await getApplicationDocumentsDirectory();
       final File file = File('${directory.path}/settings.txt');
       userData = await file.readAsString();
-      Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage(userUid: userData)));
+      firestoreInstance.collection('users').document(userData).get().then((value) {
+          if(value.data == null) {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
+          }else {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage(userUid: userData)));
+          }
+        });
     } catch (e) {
       Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
     }
