@@ -16,11 +16,22 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 
 class LoginPage extends StatefulWidget{
+
+  final FirebaseUser user;
+  final String nameValue, surnameValue, classValue;
+
+  LoginPage({Key key, @required this.user, this.nameValue, this.surnameValue, this.classValue}) : super(key: key);
+
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _LoginPageState createState() => _LoginPageState(user, nameValue, surnameValue, classValue);
 }
 
 class _LoginPageState extends State<LoginPage>{
+
+  final FirebaseUser user;
+  final String nameValue, surnameValue, classValue;
+
+  _LoginPageState(this.user, this.nameValue, this.surnameValue, this.classValue);
 
   FirebaseAuth _auth = FirebaseAuth.instance;
   FirebaseUser _user;
@@ -240,8 +251,6 @@ class _LoginPageState extends State<LoginPage>{
 
   Future<void> _handleSignIn() async {
 
-    bool isLogIn = false;
-
     showSendingProgressBar();
 
     GoogleSignInAccount googleSignInAccount = await _googleSignIn.signIn();
@@ -269,7 +278,6 @@ class _LoginPageState extends State<LoginPage>{
         Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage(userUid: userUid)));
         setState(() {
           hideSendingProgressBar();
-          isLogIn = true;
         });
       } catch (_) {
         Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpPageSocial(name: _user.displayName, email: _user.email, userUid: userUid)));
@@ -290,10 +298,13 @@ class _LoginPageState extends State<LoginPage>{
       formState.save();
       try{
         AuthResult user = await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password);
-        Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage(userUid: user.user.uid)));
-        setState(() {
-          hideSendingProgressBar();
-        });
+        if(user.user.isEmailVerified) {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage(userUid: user.user.uid)));
+          await _createUserProfile(nameValue, surnameValue, classValue);
+          setState(() {
+            hideSendingProgressBar();
+          });
+        }
       }catch(e){
         print(e.message);
         setState(() {
@@ -302,6 +313,36 @@ class _LoginPageState extends State<LoginPage>{
       }
     }
   }
+
+  void _createUserProfile(_nameValue, _surnameValue, dropdownValue) async {
+      var firebaseUser = await FirebaseAuth.instance.currentUser();
+      firestoreInstance.collection("users").document(firebaseUser.uid).setData(
+          {
+            'name': _nameValue,
+            'surname': _surnameValue,
+            'class': dropdownValue,
+            'email': _email,
+            'photourl': 'https://firebasestorage.googleapis.com/v0/b/thelearn.appspot.com/o/profile_images%2Fprofile_avatar.jpg?alt=media&token=15a87011-7190-4805-8555-f6565a42e759'
+          }
+      ).then((_) {
+        print("success!");
+      });
+      firestoreInstance.collection('rating').document(firebaseUser.uid).setData({
+        'viewed_video': 0,
+        'test_results': 0
+      }).then((value) {
+        writeSettings(firebaseUser.uid);
+      });
+    }
+
+
+  writeSettings(String text) async {
+    final Directory directory = await getApplicationDocumentsDirectory();
+    final File file = File('${directory.path}/settings.txt');
+    await file.writeAsString(text);
+    print('Успешно!');
+  }
+
 
   void _signInFacebook() async {
     FacebookLogin facebookLogin = FacebookLogin();

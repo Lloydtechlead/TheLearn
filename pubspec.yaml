@@ -49,6 +49,7 @@ dependencies:
   connectivity:
   shimmer: ^1.0.1
   firebase_admob:
+  xml2json:
 
 dev_dependencies:
   flutter_test:

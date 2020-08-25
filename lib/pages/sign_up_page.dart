@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:thelearn/login_page.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
@@ -271,45 +270,16 @@ class _SignUpState extends State<SignUpPage>{
   void signUp() async {
     if(_formKey.currentState.validate()){
       _formKey.currentState.save();
+      _formKey1.currentState.save();
       try{
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _email, password: _password);
-        _createUserProfile();
-        Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _email, password: _password).then((value) {
+          FirebaseUser user = value.user;
+          user.sendEmailVerification();
+          Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage(user: user, nameValue: _nameValue, surnameValue: _surnameValue, classValue: dropdownValue)));
+        });
       }catch(e){
         print(e.message);
       }
     }
   }
-
-  void _createUserProfile() async {
-    if(_formKey1.currentState.validate()){
-      _formKey1.currentState.save();
-      var firebaseUser = await FirebaseAuth.instance.currentUser();
-      firestoreInstance.collection("users").document(firebaseUser.uid).setData(
-        {
-          'name': _nameValue,
-          'surname': _surnameValue,
-          'class': dropdownValue,
-          'email': _email,
-          'photourl': 'https://firebasestorage.googleapis.com/v0/b/thelearn.appspot.com/o/profile_images%2Fprofile_avatar.jpg?alt=media&token=15a87011-7190-4805-8555-f6565a42e759'
-        }
-      ).then((_) {
-        print("success!");
-      });
-      firestoreInstance.collection('rating').document(firebaseUser.uid).setData({
-        'viewed_video': 0,
-        'test_results': 0
-      }).then((value) {
-        writeSettings(firebaseUser.uid);
-      });
-    }
-  }
-
-  writeSettings(String text) async {
-    final Directory directory = await getApplicationDocumentsDirectory();
-    final File file = File('${directory.path}/settings.txt');
-    await file.writeAsString(text);
-    print('Успешно!');
-  }
-
 }
