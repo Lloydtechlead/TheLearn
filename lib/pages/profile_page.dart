@@ -9,25 +9,27 @@ import 'dart:io';
 import 'user_page.dart';
 import 'package:thelearn/Widgets/size_config.dart';
 
+
 class ProfilePage extends StatefulWidget{
 
-  final String nameValue, surnameValue, classValue, userUid;
-  Image imageProfile;
+  final String userUid;
 
 
-  ProfilePage({Key key, @required this.nameValue, this.surnameValue, this.classValue, this.imageProfile, this.userUid}) : super(key: key);
+  ProfilePage({Key key, @required this.userUid}) : super(key: key);
 
   @override
-  _ProfilePageState createState() => _ProfilePageState(nameValue, surnameValue, classValue, imageProfile, userUid);
+  _ProfilePageState createState() => _ProfilePageState(userUid);
 }
 
 
 class _ProfilePageState extends State<ProfilePage>{
 
-  final String nameValue, surnameValue, classValue, userUid;
+
+  String nameValue, surnameValue, classValue;
+  final String userUid;
   Image imageProfile;
 
-  _ProfilePageState(this.nameValue, this.surnameValue, this.classValue, this.imageProfile, this.userUid);
+  _ProfilePageState(this.userUid);
 
   Firestore firestoreInstance = Firestore.instance;
 
@@ -41,9 +43,8 @@ class _ProfilePageState extends State<ProfilePage>{
   @override
   void initState() {
     super.initState();
-    getRating();
     WidgetsBinding.instance.addPostFrameCallback((_) =>
-      _refreshIndicatorKey.currentState.show());
+        _refreshIndicatorKey.currentState.show());
   }
 
   File _imageFile;
@@ -57,127 +58,131 @@ class _ProfilePageState extends State<ProfilePage>{
     print(devicePixelRatio);
     SizeConfig().init(context);
     return RefreshIndicator(
-      key: _refreshIndicatorKey,
-      onRefresh: () async {
-        await _refresh();
-      },
-      child: Scaffold(
-          body: Container(
-              width: size.width,
-              height: size.height,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  alignment: Alignment(1, SizeConfig.blockSizeVertical / -10),
-                  image: ExactAssetImage("assets/profile_page_notepad.png"),
+        key: _refreshIndicatorKey,
+        onRefresh: () async {
+          await _refresh();
+        },
+        child: Scaffold(
+            body: Container(
+                width: size.width,
+                height: size.height,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    alignment: Alignment(1, SizeConfig.blockSizeVertical / -10),
+                    image: ExactAssetImage("assets/profile_page_notepad.png"),
+                  ),
                 ),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  SizedBox(height: SizeConfig.blockSizeVertical * 10),
-                  Row(
-                    children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 13),
-                        height: 122,
-                        width: 92,
-                        color: Colors.black,
-                        child: Container(
-                            color: Colors.white,
-                            margin: EdgeInsets.all(2),
-                            child: InkWell(
-                              child: imageProfile,
-                              onTap: () async {
-                                await getImage();
-                                uploadPicture(context);
-                              },
-                            )
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    SizedBox(height: SizeConfig.blockSizeVertical * 10),
+                    Row(
+                      children: <Widget>[
+                        Container(
+                          margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 13),
+                          height: 122,
+                          width: 92,
+                          color: Colors.black,
+                          child: Container(
+                              color: Colors.white,
+                              margin: EdgeInsets.all(2),
+                              child: InkWell(
+                                child: imageProfile,
+                                onTap: () async {
+                                  await getImage();
+                                  uploadPicture(context);
+                                },
+                              )
+                          ),
                         ),
-                      ),
-                      SizedBox(width: devicePixelRatio * 50),
-                      Container(
-                        width: size.width / 6,
-                        child: Text('Рейтинг по России $userRating', style: TextStyle(fontFamily: 'VideoFont', fontSize: 20)),
-                      )
-                    ],
-                  ),
-                  SizedBox(height: 20),
-                  Container(
-                      margin: nameValue != null ? EdgeInsets.only(left: size.width / 8) : EdgeInsets.only(right: size.width / 1.5),
-                      child: nameValue != null ? Text(nameValue, style: TextStyle(fontWeight: FontWeight.bold)) : SpinKitWave(color: Colors.black12 , size: 15)
-                  ),
-                  SizedBox(height: 10),
-                  Container(
-                      margin: surnameValue != null ? EdgeInsets.only(left: size.width / 8) : EdgeInsets.only(right: size.width / 1.5),
-                      child: surnameValue != null ? Text(surnameValue, style: TextStyle(fontWeight: FontWeight.bold)) : SpinKitWave(color: Colors.black12 , size: 15)
-                  ),
-                  SizedBox(height: 10),
-                  Container(
-                      margin: classValue != null ? EdgeInsets.only(left: size.width / 8) : EdgeInsets.only(right: size.width / 1.5),
-                      child: classValue != null ? Text('Класс: $classValue', style: TextStyle(fontWeight: FontWeight.bold)) : SpinKitWave(color: Colors.black12 , size: 15)
-                  ),
-                  SizedBox(height: size.height / 6),
-                  Container(
-                      margin: EdgeInsets.only(left: 40),
-                      child: Text('Рейтинг по России', style: TextStyle(fontFamily: 'VideoFont', fontSize: 30))
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(left: 10, right: 10, bottom: 20),
-                    height: size.height / 3.5,
-                    width: size.width / 1.05,
-                    decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.circular(8)
+                        SizedBox(width: devicePixelRatio * 50),
+                        Container(
+                          width: size.width / 6,
+                          child: Text('Рейтинг по России $userRating', style: TextStyle(fontFamily: 'VideoFont', fontSize: 20)),
+                        )
+                      ],
                     ),
-                    child: Container(
+                    SizedBox(height: 20),
+                    Container(
+                        margin: nameValue != null ? EdgeInsets.only(left: size.width / 8) : EdgeInsets.only(right: size.width / 1.5),
+                        child: nameValue != null ? Text(nameValue, style: TextStyle(fontWeight: FontWeight.bold)) : SpinKitWave(color: Colors.black12 , size: 15)
+                    ),
+                    SizedBox(height: 10),
+                    Container(
+                        margin: surnameValue != null ? EdgeInsets.only(left: size.width / 8) : EdgeInsets.only(right: size.width / 1.5),
+                        child: surnameValue != null ? Text(surnameValue, style: TextStyle(fontWeight: FontWeight.bold)) : SpinKitWave(color: Colors.black12 , size: 15)
+                    ),
+                    SizedBox(height: 10),
+                    Container(
+                        margin: classValue != null ? EdgeInsets.only(left: size.width / 8) : EdgeInsets.only(right: size.width / 1.5),
+                        child: classValue != null ? Text('Класс: $classValue', style: TextStyle(fontWeight: FontWeight.bold)) : SpinKitWave(color: Colors.black12 , size: 15)
+                    ),
+                    SizedBox(height: size.height / 6),
+                    Container(
+                        margin: EdgeInsets.only(left: 40),
+                        child: Text('Рейтинг по России', style: TextStyle(fontFamily: 'VideoFont', fontSize: 30))
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 10, right: 10, bottom: 20),
+                      height: size.height / 3.5,
+                      width: size.width / 1.05,
+                      decoration: BoxDecoration(
+                          color: Colors.black,
+                          borderRadius: BorderRadius.circular(8)
+                      ),
+                      child: Container(
                         margin: EdgeInsets.all(2),
                         decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(8)
                         ),
                         child: ListView.builder(
-                          itemCount: ratingNames.length,
-                          itemBuilder: (context, index) => InkWell(
-                            onTap: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => UserPage(userUid: usersUid[index], userRating: index + 1)));
-                            },
-                            child: Container(
-                                padding: EdgeInsets.only(left: 15, right: 15),
-                                child: Column(
-                                  children: <Widget>[
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: <Widget>[
-                                        Text('${index + 1}', style: TextStyle(fontFamily: 'VideoFont', fontSize: 14)),
-                                        SizedBox(width: size.width / 30),
-                                        CircleAvatar(
-                                          backgroundColor: Colors.redAccent,
-                                          backgroundImage: NetworkImage(userPhotos[index]),
-                                        ),
-                                        SizedBox(width: size.width / 30),
-                                        Text('${ratingNames[index]}', style: TextStyle(fontFamily: 'VideoFont', fontSize: 14)),
-                                        SizedBox(width: size.width / 15),
-                                        Text('${videoNames[index]} Видео', style: TextStyle(fontFamily: 'VideoFont', fontSize: 14))
-                                      ],
-                                    ),
-                                    Divider()
-                                  ],
-                                )
-                            ),
-                          )
+                            itemCount: ratingNames.length,
+                            itemBuilder: (context, index) => InkWell(
+                              onTap: () {
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => UserPage(userUid: usersUid[index], userRating: index + 1)));
+                              },
+                              child: Container(
+                                  padding: EdgeInsets.only(left: 15, right: 15),
+                                  child: Column(
+                                    children: <Widget>[
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text('${index + 1}', style: TextStyle(fontFamily: 'VideoFont', fontSize: 14)),
+                                          SizedBox(width: size.width / 30),
+                                          CircleAvatar(
+                                            backgroundColor: Colors.redAccent,
+                                            backgroundImage: NetworkImage(userPhotos[index]),
+                                          ),
+                                          SizedBox(width: size.width / 30),
+                                          Text('${ratingNames[index]}', style: TextStyle(fontFamily: 'VideoFont', fontSize: 14)),
+                                          SizedBox(width: size.width / 15),
+                                          Text('${videoNames[index]} Видео', style: TextStyle(fontFamily: 'VideoFont', fontSize: 14))
+                                        ],
+                                      ),
+                                      Divider()
+                                    ],
+                                  )
+                              ),
+                            )
                         ),
-                    ),
-                          )
-                ],
-              )
-          )
-      )
+                      ),
+                    )
+                  ],
+                )
+            )
+        )
     );
   }
 
 
   void getRating() async {
     await firestoreInstance.collection('rating').orderBy('viewed_video', descending: true).limit(20).snapshots().listen((event) {
+      ratingNames.clear();
+      videoNames.clear();
+      usersUid.clear();
+      userPhotos.clear();
       event.documents.forEach((element) {
         firestoreInstance.collection('users').document(element.documentID).snapshots().listen((event) {
           setState(() {
@@ -218,9 +223,9 @@ class _ProfilePageState extends State<ProfilePage>{
         iosUiSettings: IOSUiSettings(
           title: 'Cropper',
         ));
-      setState(() {
-        _imageFile = croppedFile;
-      });
+    setState(() {
+      _imageFile = croppedFile;
+    });
   }
 
   Future uploadPicture(BuildContext context) async {
@@ -232,13 +237,26 @@ class _ProfilePageState extends State<ProfilePage>{
       firestoreInstance.collection('users').document(userUid).updateData({
         'photourl': value
       });
+    }).then((value) async {
+      await _refresh();
+    });
+  }
+
+  void getUserInfo() {
+    firestoreInstance.collection('users').document(userUid).get().then((value) {
+      setState(() {
+        nameValue = value.data['name'];
+        surnameValue = value.data['surname'];
+        classValue = value.data['class'];
+        imageProfile = Image.network(value.data['photourl']);
+      });
     });
   }
 
 
   Future<Null> _refresh() {
-    ratingNames = [];
     getRating();
+    getUserInfo();
     return null;
   }
 }

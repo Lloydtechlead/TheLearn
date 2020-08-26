@@ -72,7 +72,6 @@ class _HomePageState extends State<MainPage>{
   void initState() {
     super.initState();
     getVideoLesson();
-    getUserInfo();
     showInterstitialAd();
   }
 
@@ -94,7 +93,7 @@ class _HomePageState extends State<MainPage>{
       VideoLessonPage(lessonsNamesRu: lessonsNamesRu, lessonsNamesEn: lessonsNamesEn, classValue: classValue, userUid: userUid),
       TestsPage(),
       CribsPage(),
-      ProfilePage(nameValue: nameValue, surnameValue: surnameValue, classValue: classValue, imageProfile: imageProfile, userUid: userUid),
+      ProfilePage(userUid: userUid),
     ];
     // TODO: implement build
     return Scaffold(
@@ -186,28 +185,6 @@ class _HomePageState extends State<MainPage>{
     });
   }
 
-  void getUserInfo() {
-    firestoreInstance.collection('users').document(userUid).get().then((value) {
-      setState(() {
-        nameValue = value.data['name'];
-        surnameValue = value.data['surname'];
-        classValue = value.data['class'];
-        imageProfile = Image.network(value.data['photourl']);
-      });
-    });
-    firebaseMessaging.configure(
-        onMessage: (Map<String, dynamic> message) {
-          print(message);
-        },
-        onResume: (Map<String, dynamic> message) {
-          print(message);
-        },
-        onLaunch: (Map<String, dynamic> message) {
-          print(message);
-        }
-    );
-  }
-
   Future<void> showAlert() async {
     return showDialog<void>(
       context: context,
@@ -233,7 +210,6 @@ class _HomePageState extends State<MainPage>{
               ),
               onPressed: () {
                 getVideoLesson();
-                getUserInfo();
                 Navigator.of(context).pop();
               },
             ),
