@@ -78,7 +78,7 @@ class _HomePageState extends State<MainPage>{
 
   InterstitialAd createInterstitialAd() {
     return InterstitialAd(
-        adUnitId: InterstitialAd.testAdUnitId,
+        adUnitId: ams.getBannerAdIdMainPage(),
         //Change Interstitial AdUnitId with Admob ID
         targetingInfo: targetingInfo,
         listener: (MobileAdEvent event) {
