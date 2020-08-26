@@ -225,6 +225,9 @@ class _ProfilePageState extends State<ProfilePage>{
         ));
     setState(() {
       _imageFile = croppedFile;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _refreshIndicatorKey.currentState.show();
+      });
     });
   }
 
