@@ -71,6 +71,7 @@ class _HomePageState extends State<MainPage>{
   @override
   void initState() {
     super.initState();
+    getUserInfo();
     getVideoLesson();
     showInterstitialAd();
   }
@@ -111,23 +112,23 @@ class _HomePageState extends State<MainPage>{
           ),
 
           BottomNavigationBarItem(
-              icon: Icon(Icons.videocam),
-              title: Text('Видеоуроки', style: TextStyle(fontSize: 13)),
+            icon: Icon(Icons.videocam),
+            title: Text('Видеоуроки', style: TextStyle(fontSize: 13)),
           ),
 
           BottomNavigationBarItem(
-              icon: Icon(Icons.assignment),
-              title: Text('Тесты', style: TextStyle(fontSize: 13)),
+            icon: Icon(Icons.assignment),
+            title: Text('Тесты', style: TextStyle(fontSize: 13)),
           ),
 
           BottomNavigationBarItem(
-            icon: Icon(Icons.book),
-            title: Text('Шпаргалки', style: TextStyle(fontSize: 13))
+              icon: Icon(Icons.book),
+              title: Text('Шпаргалки', style: TextStyle(fontSize: 13))
           ),
 
           BottomNavigationBarItem(
-              icon: Icon(Icons.account_circle),
-              title: Text('Профиль', style: TextStyle(fontSize: 13)),
+            icon: Icon(Icons.account_circle),
+            title: Text('Профиль', style: TextStyle(fontSize: 13)),
           ),
         ],
         onTap: (index) {
@@ -187,47 +188,58 @@ class _HomePageState extends State<MainPage>{
 
   Future<void> showAlert() async {
     return showDialog<void>(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Row(
-            children: <Widget>[
-              Icon(Icons.signal_wifi_off),
-              Text('Ошибка подключения')
-            ],
-          ),
-          content: SingleChildScrollView(
-            child: Text('Пожалуйста, проверьте подключение к интернету'),
-          ),
-          actions: <Widget>[
-            FlatButton(
-              child: Row(
-                children: <Widget>[
-                  Text('Повторить'),
-                  Icon(Icons.refresh)
-                ],
-              ),
-              onPressed: () {
-                getVideoLesson();
-                Navigator.of(context).pop();
-              },
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Row(
+              children: <Widget>[
+                Icon(Icons.signal_wifi_off),
+                Text('Ошибка подключения')
+              ],
             ),
-            FlatButton(
-              child: Row(
-                children: <Widget>[
-                  Text('Ок'),
-                  Icon(Icons.check_circle)
-                ],
+            content: SingleChildScrollView(
+              child: Text('Пожалуйста, проверьте подключение к интернету'),
+            ),
+            actions: <Widget>[
+              FlatButton(
+                child: Row(
+                  children: <Widget>[
+                    Text('Повторить'),
+                    Icon(Icons.refresh)
+                  ],
+                ),
+                onPressed: () {
+                  getVideoLesson();
+                  Navigator.of(context).pop();
+                },
               ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            )
-          ],
-        );
-      }
+              FlatButton(
+                child: Row(
+                  children: <Widget>[
+                    Text('Ок'),
+                    Icon(Icons.check_circle)
+                  ],
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        }
     );
+  }
+
+  void getUserInfo() {
+    firestoreInstance.collection('users').document(userUid).get().then((value) {
+      setState(() {
+        nameValue = value.data['name'];
+        surnameValue = value.data['surname'];
+        classValue = value.data['class'];
+        imageProfile = Image.network(value.data['photourl']);
+      });
+    });
   }
 
   void showInterstitialAd() {
@@ -237,8 +249,8 @@ class _HomePageState extends State<MainPage>{
 
     const timeOut = Duration(minutes: 7);
     _timer = new Timer.periodic(
-      timeOut,
-        (Timer timer) => setState(() {
+        timeOut,
+            (Timer timer) => setState(() {
           createInterstitialAd()..load()..show();
         })
     );

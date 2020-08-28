@@ -35,82 +35,82 @@ class _VideoLessonPageState extends State<VideoLessonPage>{
   Widget build(BuildContext context) {
     // TODO: implement build
     return WillPopScope(
-      onWillPop: () {
-        if(isTheme == true) {
-          changeToTheme(null);
-        }
-      },
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: <Widget>[
-          Expanded(
-            child: ListView.builder(
-                reverse: true,
-                itemCount: isTheme == true ? themesList.length : lessonsNamesEn.length,
-                itemBuilder: (context, index) => InkWell(
-                    onTap: () {
-                      setState(() {
-                        if(isTheme == true) {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => ThemePage(lessonName: lessonName, themeName: themesList[index], classValue: classValue, userUid: userUid)));
-                        }else {
-                          changeToTheme(lessonsNamesEn[index]);
-                        }
-                      });
-                    },
-                    child: Container(
-                      margin: EdgeInsets.only(left: 10, right: 10),
-                      decoration: BoxDecoration(
-                          color: Colors.black,
-                          borderRadius: BorderRadius.circular(6),
-                          boxShadow: [BoxShadow(
-                            color: Colors.black,
-                            blurRadius: 7
-                          )]
-                      ),
+        onWillPop: () {
+          if(isTheme == true) {
+            changeToTheme(null);
+          }
+        },
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: <Widget>[
+            Expanded(
+              child: ListView.builder(
+                  reverse: true,
+                  itemCount: isTheme == true ? themesList.length : lessonsNamesEn.length,
+                  itemBuilder: (context, index) => InkWell(
+                      onTap: () {
+                        setState(() {
+                          if(isTheme == true) {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => ThemePage(lessonName: lessonName, themeName: themesList[index], classValue: classValue, userUid: userUid)));
+                          }else {
+                            changeToTheme(lessonsNamesEn[index]);
+                          }
+                        });
+                      },
                       child: Container(
-                        height: 100,
-                        margin: EdgeInsets.only(left: 6, right: 6, top: 2, bottom: 2),
+                        margin: EdgeInsets.only(left: 10, right: 10),
                         decoration: BoxDecoration(
-                          color: Colors.redAccent,
-                          borderRadius: BorderRadius.circular(6),
+                            color: Colors.black,
+                            borderRadius: BorderRadius.circular(6),
+                            boxShadow: [BoxShadow(
+                                color: Colors.black,
+                                blurRadius: 7
+                            )]
                         ),
                         child: Container(
-                          margin: EdgeInsets.only(left: 14, right: 14, top: 2, bottom: 2),
+                          height: 100,
+                          margin: EdgeInsets.only(left: 6, right: 6, top: 2, bottom: 2),
                           decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(12)
+                            color: Colors.redAccent,
+                            borderRadius: BorderRadius.circular(6),
                           ),
-                          child: Column(
-                            crossAxisAlignment: isTheme == true ? CrossAxisAlignment.center : CrossAxisAlignment.end,
-                            children: <Widget>[
-                              isTheme == true ?
-                              Text(themesList[index]):
-                              Container(
-                                margin: EdgeInsets.only(top: 30),
-                                height: 50,
-                                width: 150,
-                                color: Colors.black,
-                                child: Container(
-                                  height: 47,
-                                  width: 147,
-                                  color: Colors.white,
-                                  margin: EdgeInsets.all(5),
-                                  child: Center(
-                                    child: Text(lessonsNamesRu[index], style: TextStyle(fontFamily: 'VideoFont', fontSize: 20),),
+                          child: Container(
+                            margin: EdgeInsets.only(left: 14, right: 14, top: 2, bottom: 2),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(12)
+                            ),
+                            child: Column(
+                              crossAxisAlignment: isTheme == true ? CrossAxisAlignment.center : CrossAxisAlignment.end,
+                              children: <Widget>[
+                                isTheme == true ?
+                                Text(themesList[index]):
+                                Container(
+                                  margin: EdgeInsets.only(top: 30),
+                                  height: 50,
+                                  width: 150,
+                                  color: Colors.black,
+                                  child: Container(
+                                    height: 47,
+                                    width: 147,
+                                    color: Colors.white,
+                                    margin: EdgeInsets.all(5),
+                                    child: Center(
+                                      child: Text(lessonsNamesRu[index], style: TextStyle(fontFamily: 'VideoFont', fontSize: 20),),
+                                    ),
                                   ),
-                                ),
-                              )
-                            ],
+                                )
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    )
-                )
+                      )
+                  )
+              ),
             ),
-          ),
-          Image.asset('assets/videolesson_picture_1.png'),
-        ],
-      )
+            Image.asset('assets/videolesson_picture_1.png'),
+          ],
+        )
     );
   }
   void changeToTheme(nameLesson) {
