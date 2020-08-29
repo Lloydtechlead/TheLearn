@@ -25,6 +25,7 @@ class _VideoLessonPageState extends State<VideoLessonPage>{
   bool isTheme = false;
 
   List themesList = [];
+  List videoViewed = [];
 
   String lessonName;
 
@@ -77,7 +78,7 @@ class _VideoLessonPageState extends State<VideoLessonPage>{
                           child: Container(
                             margin: EdgeInsets.only(left: 14, right: 14, top: 2, bottom: 2),
                             decoration: BoxDecoration(
-                                color: Colors.white,
+                                color: isTheme ? videoViewed[index] == 1 ? Colors.green : Colors.white : Colors.white,
                                 borderRadius: BorderRadius.circular(12)
                             ),
                             child: Column(
@@ -111,25 +112,38 @@ class _VideoLessonPageState extends State<VideoLessonPage>{
         )
     );
   }
-  void changeToTheme(nameLesson) {
+  void changeToTheme(nameLesson) async {
     if(isTheme == false) {
       setState(() {
         isTheme = true;
         lessonName = nameLesson;
       });
 
-      firestoreInstance.collection('video_lesson').document('class_$classValue').collection(nameLesson).orderBy("order").getDocuments().then((value) {
+      await firestoreInstance.collection('video_lesson').document('class_$classValue').collection(nameLesson).orderBy("order").getDocuments().then((value) {
         value.documents.forEach((element) {
           setState(() {
             themesList.add(element.documentID);
+            });
+          firestoreInstance.collection('rating').document(userUid).collection('viewed_video').where('theme_name', isEqualTo: element.documentID).snapshots().listen((event) {
+            if(event.documents.length == 0) {
+              setState(() {
+                videoViewed.add(0);
+              });
+            } else if(event.documents.length == 1) {
+              setState(() {
+                videoViewed.add(1);
+              });
+            }
           });
         });
       });
+
 
     }else if(isTheme == true) {
       setState(() {
         isTheme = false;
         themesList = [];
+        videoViewed = [];
         lessonName = null;
       });
     }
