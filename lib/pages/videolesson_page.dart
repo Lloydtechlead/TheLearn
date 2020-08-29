@@ -91,10 +91,8 @@ class _VideoLessonPageState extends State<VideoLessonPage>{
                                   width: 150,
                                   color: Colors.black,
                                   child: Container(
-                                    height: 47,
-                                    width: 147,
                                     color: Colors.white,
-                                    margin: EdgeInsets.all(5),
+                                    margin: EdgeInsets.all(3),
                                     child: Center(
                                       child: Text(lessonsNamesRu[index], style: TextStyle(fontFamily: 'VideoFont', fontSize: 20),),
                                     ),
