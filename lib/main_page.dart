@@ -97,45 +97,48 @@ class _HomePageState extends State<MainPage>{
       ProfilePage(userUid: userUid),
     ];
     // TODO: implement build
-    return Scaffold(
-      body: pages[_currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.pink,
-        iconSize: 30,
-        fixedColor: Colors.white,
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            title: Text('Главная', style: TextStyle(fontSize: 13)),
-          ),
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        body: pages[_currentIndex],
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: _currentIndex,
+          type: BottomNavigationBarType.fixed,
+          backgroundColor: Colors.pink,
+          iconSize: 30,
+          fixedColor: Colors.white,
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              title: Text('Главная', style: TextStyle(fontSize: 13)),
+            ),
 
-          BottomNavigationBarItem(
-            icon: Icon(Icons.videocam),
-            title: Text('Видеоуроки', style: TextStyle(fontSize: 13)),
-          ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.videocam),
+              title: Text('Видеоуроки', style: TextStyle(fontSize: 13)),
+            ),
 
-          BottomNavigationBarItem(
-            icon: Icon(Icons.assignment),
-            title: Text('Тесты', style: TextStyle(fontSize: 13)),
-          ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.assignment),
+              title: Text('Тесты', style: TextStyle(fontSize: 13)),
+            ),
 
-          BottomNavigationBarItem(
-              icon: Icon(Icons.book),
-              title: Text('Шпаргалки', style: TextStyle(fontSize: 13))
-          ),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.book),
+                title: Text('Шпаргалки', style: TextStyle(fontSize: 13))
+            ),
 
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle),
-            title: Text('Профиль', style: TextStyle(fontSize: 13)),
-          ),
-        ],
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
+            BottomNavigationBarItem(
+              icon: Icon(Icons.account_circle),
+              title: Text('Профиль', style: TextStyle(fontSize: 13)),
+            ),
+          ],
+          onTap: (index) {
+            setState(() {
+              _currentIndex = index;
+            });
+          },
+        ),
       ),
     );
   }
