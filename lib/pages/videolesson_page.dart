@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_youtube/flutter_youtube.dart';
-import 'file:///C:/Users/clash/AndroidStudioProjects/TheLearn/lib/utilities/keys.dart';
+import 'package:thelearn/utilities/keys.dart';
 import 'theme_page.dart';
 
 class VideoLessonPage extends StatefulWidget{

@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_youtube/flutter_youtube.dart';
-import 'file:///C:/Users/clash/AndroidStudioProjects/TheLearn/lib/utilities/keys.dart';
+import 'package:thelearn/utilities/keys.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class ThemePage extends StatefulWidget {
