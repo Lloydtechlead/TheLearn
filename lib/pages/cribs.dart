@@ -4,11 +4,21 @@ import 'crib_page.dart';
 
 class CribsPage extends StatefulWidget {
 
+  final String userUid;
+
+  CribsPage({Key key, @required this.userUid}) : super(key: key);
+
   @override
-  CribsPageState createState() => CribsPageState();
+  CribsPageState createState() => CribsPageState(userUid);
 }
 
 class CribsPageState extends State<CribsPage> {
+
+  final String userUid;
+
+  CribsPageState(this.userUid);
+
+  String classValue;
 
   Firestore firestoreInstance = Firestore.instance;
 
@@ -23,14 +33,17 @@ class CribsPageState extends State<CribsPage> {
   @override
   void initState() {
     super.initState();
-    getCribs();
+    getUserInfo();
   }
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () {
-        willPop();
+        setState(() {
+          isCribsThemes = false;
+          cribsThemesList = [];
+        });
       },
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
@@ -38,7 +51,7 @@ class CribsPageState extends State<CribsPage> {
           Expanded(
             child: ListView.builder(
                 reverse: true,
-                itemCount: cribsList.length,
+                itemCount: isCribsThemes == true ? cribsThemesList.length : cribsList.length,
                 itemBuilder: (context, index) => InkWell(
                     onTap: () {
                       if(isCribsThemes == false) {
@@ -89,7 +102,7 @@ class CribsPageState extends State<CribsPage> {
   }
   
   void getCribs() {
-    firestoreInstance.collection('cribs').document('class_2').snapshots().listen((event) {
+    firestoreInstance.collection('cribs').document('class_$classValue').snapshots().listen((event) {
       print(event.data);
       event.data.forEach((key, value) {
         setState(() {
@@ -133,9 +146,19 @@ class CribsPageState extends State<CribsPage> {
   }
 
 
+  void getUserInfo() async {
+    await firestoreInstance.collection('users').document(userUid).get().then((value) {
+      setState(() {
+        classValue = value.data['class'];
+      });
+    }).then((_) async {
+      getCribs();
+    });
+  }
+
   void getCribsThemes(index) {
 
-    firestoreInstance.collection('cribs').document('class_2').collection(cribsListEn[index]).snapshots().listen((event) {
+    firestoreInstance.collection('cribs').document('class_$classValue').collection(cribsListEn[index]).snapshots().listen((event) {
       event.documents.forEach((element) {
         cribsThemesList.add(element.documentID);
       });
@@ -143,12 +166,6 @@ class CribsPageState extends State<CribsPage> {
         isCribsThemes = true;
         cribName = cribsListEn[index];
       });
-    });
-  }
-
-  void willPop() {
-    setState(() {
-      isCribsThemes = false;
     });
   }
 }

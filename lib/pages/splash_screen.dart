@@ -43,7 +43,7 @@ class SplashScreenState extends State<SplashScreen> {
           if(value.data == null) {
             Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
           }else {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage(userUid: userData)));
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainPage(userUid: userData)));
           }
         });
     } catch (e) {
