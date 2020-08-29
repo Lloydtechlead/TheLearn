@@ -162,6 +162,25 @@ class ThemePageState extends State<ThemePage> {
           ),
       ),
       showVideoProgressIndicator: true,
+      onReady: () {},
+      onEnded: (data) => addValue()
     );
+  }
+
+
+  Future<void> addValue() {
+
+    firestoreInstance.collection('rating').document(userUid).get().then((value) {
+      firestoreInstance.collection('rating').document(userUid).collection('viewed_video').where('theme_name', isEqualTo: themeName).getDocuments().then((data) {
+          if(data.documents.length == 0) {
+            firestoreInstance.collection('rating').document(userUid).updateData({
+              'viewed_video': value.data['viewed_video'] + 1
+            });
+            firestoreInstance.collection('rating').document(userUid).collection('viewed_video').document(themeName).setData({
+              'theme_name': themeName
+            });
+          }
+      });
+    });
   }
 }
